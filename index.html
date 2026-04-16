@@ -1,1 +1,1465 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>My Personal Webpage</title> </head> <body> <h1>Hello, World!</h1> <p>Welcome to my new personal site hosted on GitHub.</p> </body> </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predicting the Future of Latin and Greek Plurals — ICE 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --cream-dark: #ede6d6;
+    --ink: #1a1610;
+    --ink-soft: #3d3528;
+    --ink-muted: #7a6e5f;
+    --navy: #1c2b4a;
+    --navy-light: #2e4270;
+    --gold: #b8860b;
+    --gold-light: #d4a520;
+    --rust: #8b3a2f;
+    --sage: #4a6741;
+    --rule: #c8bba8;
+    --accent-bg: #e8e0d0;
+    --card-bg: #faf7f2;
+    --serif: 'Playfair Display', Georgia, serif;
+    --body: 'Source Serif 4', Georgia, serif;
+    --mono: 'DM Mono', 'Courier New', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.05rem;
+    line-height: 1.75;
+    font-weight: 300;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 54px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 0.85rem;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    color: #fff;
+    border-bottom-color: var(--gold-light);
+  }
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: #fff;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    margin: 4px 0;
+    transition: 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-texture {
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px);
+    pointer-events: none;
+  }
+  .hero-ornament {
+    position: absolute;
+    top: 54px; right: 0;
+    width: 55vw;
+    height: calc(100% - 54px);
+    background: linear-gradient(135deg, rgba(184,134,11,0.07) 0%, rgba(28,43,74,0) 60%);
+    border-left: 1px solid rgba(212,165,32,0.15);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 7rem 3rem 4rem;
+    max-width: 900px;
+  }
+  .hero-kicker {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .hero-kicker::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em {
+    color: var(--gold-light);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .hero-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    font-family: var(--body);
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .meta-item label {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .meta-item span {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.9rem;
+    font-family: var(--body);
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    right: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.35);
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .hero-scroll svg { width: 16px; opacity: 0.5; }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ─── LAYOUT ─── */
+  main { padding-top: 54px; }
+  .section {
+    padding: 5rem 0;
+    position: relative;
+  }
+  .section:nth-child(even) { background: var(--card-bg); }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  .container-wide {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .section-number {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+  .section-title-sm {
+    font-family: var(--serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  p { margin-bottom: 1.2rem; }
+  p:last-child { margin-bottom: 0; }
+
+  /* ─── INTRO / ABSTRACT ─── */
+  .abstract-block {
+    border-left: 3px solid var(--gold);
+    padding: 1.5rem 2rem;
+    background: var(--accent-bg);
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .abstract-block::before {
+    content: 'Abstract';
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .abstract-block p {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1rem;
+  }
+
+  /* ─── RQ CARDS ─── */
+  .rq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .rq-card {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  .rq-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--gold);
+  }
+  .rq-number {
+    font-family: var(--mono);
+    font-size: 2.5rem;
+    color: rgba(255,255,255,0.08);
+    font-weight: 500;
+    position: absolute;
+    bottom: 0.5rem;
+    right: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .rq-card p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.82);
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── CORPUS TABS ─── */
+  .tab-group { margin-top: 2.5rem; }
+  .tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 2px solid var(--rule);
+    margin-bottom: 0;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 0.65rem 1.2rem;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn.active, .tab-btn:hover {
+    color: var(--navy);
+    border-bottom-color: var(--navy);
+  }
+  .tab-panel { display: none; padding-top: 0; }
+  .tab-panel.active { display: block; }
+
+  /* ─── NGRAM IFRAMES ─── */
+  .ngram-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (max-width: 700px) {
+    .ngram-pair { grid-template-columns: 1fr; }
+  }
+  .ngram-item {
+    background: var(--card-bg);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .ngram-label {
+    background: var(--accent-bg);
+    padding: 0.5rem 0.85rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ngram-forms {
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .ngram-item iframe {
+    width: 100%;
+    height: 260px;
+    border: none;
+    display: block;
+  }
+  .iframe-caption {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.75rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+  }
+  .corpus-note {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--rust);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .corpus-note::before {
+    content: '⚠ Methodology note — ';
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--rust);
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ─── CATEGORY CARDS ─── */
+  .category-trio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+  }
+  @media (max-width: 750px) {
+    .category-trio { grid-template-columns: 1fr; }
+  }
+  .cat-card {
+    padding: 2rem 1.5rem;
+    border-top: 4px solid;
+    position: relative;
+    background: var(--card-bg);
+    border-radius: 0 0 2px 2px;
+  }
+  .cat-card.fast { border-color: var(--rust); }
+  .cat-card.contested { border-color: var(--gold); }
+  .cat-card.classical { border-color: var(--sage); }
+  .cat-card h3 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .cat-card.fast h3 { color: var(--rust); }
+  .cat-card.contested h3 { color: var(--gold); }
+  .cat-card.classical h3 { color: var(--sage); }
+  .cat-card p { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1rem; }
+  .cat-examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .cat-example {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+  .fast .cat-example { background: rgba(139,58,47,0.1); color: var(--rust); }
+  .contested .cat-example { background: rgba(184,134,11,0.1); color: var(--gold); }
+  .classical .cat-example { background: rgba(74,103,65,0.1); color: var(--sage); }
+
+  /* ─── FACTOR PILLS ─── */
+  .factor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .factor-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 1rem 1.25rem;
+    background: var(--accent-bg);
+    border-radius: 2px;
+  }
+  .factor-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .factor-text strong {
+    display: block;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .factor-text span { font-size: 0.88rem; color: var(--ink-soft); }
+
+  /* ─── PROJECTIONS ─── */
+  .projection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .proj-card {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .proj-header {
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .proj-card.fast .proj-header { background: rgba(139,58,47,0.08); }
+  .proj-card.contested .proj-header { background: rgba(184,134,11,0.08); }
+  .proj-card.classical .proj-header { background: rgba(74,103,65,0.08); }
+  .proj-header h4 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .proj-card.fast .proj-header h4 { color: var(--rust); }
+  .proj-card.contested .proj-header h4 { color: var(--gold); }
+  .proj-card.classical .proj-header h4 { color: var(--sage); }
+  .proj-badge {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+  }
+  .fast .proj-badge { background: rgba(139,58,47,0.15); color: var(--rust); }
+  .contested .proj-badge { background: rgba(184,134,11,0.15); color: var(--gold); }
+  .classical .proj-badge { background: rgba(74,103,65,0.15); color: var(--sage); }
+  .proj-body { padding: 1rem 1.25rem; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+
+  /* ─── EXTERNAL FORCES ─── */
+  .force-accordion { margin: 1.5rem 0; }
+  .force-item {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+  }
+  .force-toggle {
+    width: 100%;
+    background: var(--card-bg);
+    border: none;
+    cursor: pointer;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    transition: background 0.2s;
+  }
+  .force-toggle:hover { background: var(--accent-bg); }
+  .force-toggle h4 {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .force-arrow {
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
+  .force-item.open .force-arrow { transform: rotate(180deg); }
+  .force-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .force-body-inner {
+    padding: 0 1.25rem 1.25rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    border-top: 1px solid var(--rule);
+    padding-top: 1rem;
+    margin-top: -1px;
+  }
+
+  /* ─── RECOMMENDATIONS ─── */
+  .rec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 650px) {
+    .rec-grid { grid-template-columns: 1fr; }
+  }
+  .rec-column h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--rule);
+    margin-bottom: 1rem;
+    color: var(--navy);
+  }
+  .rec-row {
+    display: flex;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+    padding: 0.85rem;
+    background: var(--accent-bg);
+    border-radius: 2px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+  .rec-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    height: fit-content;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+  .rec-tag.fast { background: rgba(139,58,47,0.12); color: var(--rust); }
+  .rec-tag.contested { background: rgba(184,134,11,0.12); color: var(--gold); }
+  .rec-tag.classical { background: rgba(74,103,65,0.12); color: var(--sage); }
+  .rec-text { color: var(--ink-soft); }
+  .ai-callout {
+    background: var(--navy);
+    color: #fff;
+    padding: 2rem;
+    margin-top: 2rem;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .ai-callout::before {
+    content: '?';
+    position: absolute;
+    right: -0.5rem;
+    top: -1rem;
+    font-family: var(--serif);
+    font-size: 12rem;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .ai-callout h4 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin-bottom: 0.75rem;
+  }
+  .ai-callout p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.65; margin-bottom: 0; }
+
+  /* ─── CONCLUSION ─── */
+  .conclusion-pull {
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--navy);
+    border-left: 4px solid var(--gold);
+    padding: 1.25rem 2rem;
+    margin: 2.5rem 0;
+    background: var(--accent-bg);
+  }
+
+  /* ─── REFERENCES ─── */
+  .ref-group { margin-bottom: 2rem; }
+  .ref-group h4 {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ref-item {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(200,187,168,0.4);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+  .ref-item:last-child { border-bottom: none; }
+  .ref-item a {
+    color: var(--navy-light);
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .ref-item a:hover { text-decoration: underline; color: var(--gold); }
+  .ref-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.45rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.45);
+    text-align: center;
+    padding: 2.5rem 2rem;
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+  footer a:hover { color: var(--gold-light); }
+
+  /* ─── UTILITIES ─── */
+  .divider {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+  .text-muted { color: var(--ink-muted); font-size: 0.88rem; }
+  .mt-2 { margin-top: 2rem; }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 54px; left: 0; right: 0;
+      background: var(--navy);
+      padding: 1rem 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      z-index: 99;
+    }
+    .nav-links.open a { height: auto; padding: 0.75rem 1.5rem; }
+    .nav-toggle { display: block; }
+    .hero-content { padding: 5rem 1.5rem 3rem; }
+    .section { padding: 3.5rem 0; }
+    .container, .container-wide { padding: 0 1.25rem; }
+    .category-trio { grid-template-columns: 1fr; }
+    .rec-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">ICE · 2026 White Paper</div>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#intro">Introduction</a></li>
+    <li><a href="#rq">Questions</a></li>
+    <li><a href="#corpus">Corpus</a></li>
+    <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#projections">Projections</a></li>
+    <li><a href="#recommendations">Policy</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-content">
+    <div class="hero-kicker">PBL Module 1 Report &nbsp;·&nbsp; Institute of Contemporary English</div>
+    <h1 class="hero-title">Predicting the Future of <em>Latin and Greek Plurals</em></h1>
+    <p class="hero-subtitle">2026 White Paper Contribution</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <label>Team</label>
+        <span>이종현교수님팬클럽</span>
+      </div>
+      <div class="meta-item">
+        <label>Members</label>
+        <span>이형빈, 서동규, 김현아, Zaya</span>
+      </div>
+      <div class="meta-item">
+        <label>Published</label>
+        <span>2026</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    scroll
+    <svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 4v16M2 14l6 6 6-6"/>
+    </svg>
+  </div>
+</section>
+
+<main>
+
+<!-- 1. INTRODUCTION -->
+<section class="section" id="intro">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 01</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Introduction</h2>
+
+    <div class="abstract-block fade-in">
+      <p>The question of whether to write "criteria" or "criterions," "formulae" or "formulas," "stimuli" or "stimuluses" may seem trivial at first glance. However, for language professionals — lexicographers, educators, editors, and policymakers — these choices reflect deeper forces shaping the trajectory of English.</p>
+    </div>
+
+    <div class="fade-in">
+      <p>Greek and Latin plural forms are undergoing measurable change, and understanding the direction and speed of that change is essential for anyone responsible for standardizing or teaching the language.</p>
+      <p>This report investigates how and why certain nouns of Greek and Latin origin are shifting toward regularized English plurals while others retain their classical forms. We argue that two primary forces drive this variation.</p>
+    </div>
+
+    <div class="divider fade-in"></div>
+
+    <div class="factor-list fade-in">
+      <div class="factor-item">
+        <div class="factor-icon">①</div>
+        <div class="factor-text">
+          <strong>Semantic or grammatical drift</strong>
+          <span>Words that undergo drift — particularly when escaping dominant ownership by a single specialist register — tend to regularize across all registers. "Data" is the clearest example of this phenomenon.</span>
+        </div>
+      </div>
+      <div class="factor-item">
+        <div class="factor-icon">②</div>
+        <div class="factor-text">
+          <strong>Cross-register migration without meaning change</strong>
+          <span>Words that cross between academic and general public registers without undergoing meaning change tend to remain contested, with both forms competing simultaneously.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fade-in mt-2">
+      <p>Words that remain firmly within specialist registers, such as "fungi," tend to retain their classical forms regardless of increased public exposure.</p>
+      <p>To investigate these patterns, our team selected a set of Greek and Latin origin nouns spanning general usage and discipline-specific contexts, examining their usage patterns across corpora and time periods to produce data-driven projections for 2040.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. RESEARCH QUESTIONS -->
+<section class="section" id="rq">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 02</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Research Questions</h2>
+    <p class="fade-in">This report addresses the following research questions:</p>
+
+    <div class="rq-grid fade-in">
+      <div class="rq-card">
+        <p>Which nouns are shifting toward regularized English plurals, and which retain their classical forms? What drives this difference — and does the explanation vary depending on whether the word has undergone semantic or grammatical drift, or whether it straddles multiple registers?</p>
+        <div class="rq-number">01</div>
+      </div>
+      <div class="rq-card">
+        <p>What patterns emerge when usage data is examined across registers, disciplines, and time periods? Specifically, do specialist registers and general public registers show diverging trajectories for the same word?</p>
+        <div class="rq-number">02</div>
+      </div>
+      <div class="rq-card">
+        <p>Which plural forms are most likely to be treated as standard by 2040 — and by whom? We examine this question separately across three contexts: dictionary entries, academic publishing norms, and general public usage including social media.</p>
+        <div class="rq-number">03</div>
+      </div>
+      <div class="rq-card">
+        <p>What external forces — including globalization, technological change, and the rise of non-native English speakers as content creators — are likely to accelerate or complicate these trends toward 2040?</p>
+        <div class="rq-number">04</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. CORPUS ANALYSIS -->
+<section class="section" id="corpus">
+  <div class="container-wide">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 03</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Corpus-Based Usage Analysis</h2>
+
+    <div class="corpus-note fade-in">
+      Google Ngram Viewer data reflects primarily published book corpora, which tends to lag behind spoken and digital language change. COCA data covers 1990–2022 and may not fully capture emerging trends in newer registers such as social media and digital communication. These limitations are acknowledged and discussed further in the Recommendations section.
+    </div>
+
+    <p class="fade-in">Data was drawn from the Corpus of Contemporary American English (COCA), the Corpus of Historical American English (COHA), and Google Books Ngram Viewer (1900–2022). For each word pair, we compare the frequency of the classical plural form against the regularized English plural form across time. Select a category below to explore the data:</p>
+
+    <div class="tab-group fade-in">
+      <div class="tab-nav">
+        <button class="tab-btn active" data-tab="general">General Usage</button>
+        <button class="tab-btn" data-tab="biology">Biology</button>
+        <button class="tab-btn" data-tab="philosophy">Philosophy / Academic</button>
+        <button class="tab-btn" data-tab="mathsci">Mathematics / Science</button>
+      </div>
+
+      <!-- GENERAL -->
+      <div class="tab-panel active" id="tab-general">
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">criterions vs. criteria</span><span>NOUN · General</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=criterions,criteria&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: criterions vs criteria"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">formulae vs. formulas</span><span>NOUN · General</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=formulae,formulas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: formulae vs formulas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">syllabi vs. syllabuses</span><span>NOUN · General</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=syllabi,syllabuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: syllabi vs syllabuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">cacti vs. cactuses</span><span>NOUN · General</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=cacti,cactuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: cacti vs cactuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIOLOGY -->
+      <div class="tab-panel" id="tab-biology">
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">bacteria vs. bacteriums</span><span>NOUN · Biology</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=bacteria,bacteriums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: bacteria vs bacteriums"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">fungi vs. funguses</span><span>NOUN · Biology</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=fungi,funguses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: fungi vs funguses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">larvae vs. larvas</span><span>NOUN · Biology</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=larvae,larvas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: larvae vs larvas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">nuclei vs. nucleuses</span><span>NOUN · Biology</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=nuclei,nucleuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: nuclei vs nucleuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">algae vs. algas</span><span>NOUN · Biology</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=algae,algas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: algae vs algas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHILOSOPHY -->
+      <div class="tab-panel" id="tab-philosophy">
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">data vs. datums</span><span>NOUN · Philosophy / Academic</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=data,datums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: data vs datums"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">media vs. mediums</span><span>NOUN · Philosophy / Academic</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=media,mediums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: media vs mediums"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">phenomena vs. phenomenons</span><span>NOUN · Philosophy / Academic</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=phenomena,phenomenons&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: phenomena vs phenomenons"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">strata vs. stratums</span><span>NOUN · Philosophy / Academic</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=strata,stratums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: strata vs stratums"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATH/SCIENCE -->
+      <div class="tab-panel" id="tab-mathsci">
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">radii vs. radiuses</span><span>NOUN · Mathematics / Science</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=radii,radiuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: radii vs radiuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">matrices vs. matrixes</span><span>NOUN · Mathematics / Science</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=matrices,matrixes&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: matrices vs matrixes"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">vertices vs. vertexes</span><span>NOUN · Mathematics / Science</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=vertices,vertexes&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: vertices vs vertexes"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">stimuli vs. stimuluses</span><span>NOUN · Mathematics / Science</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=stimuli,stimuluses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: stimuli vs stimuluses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-group -->
+
+    <p class="text-muted fade-in" style="margin-top:1.5rem;">Note: COCA frequency data to be inserted by the team in the final version.</p>
+  </div>
+</section>
+
+<!-- 4. RATE AND DIRECTION -->
+<section class="section" id="analysis">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 04</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Rate and Direction Comparison</h2>
+
+    <p class="fade-in">Having established long-term usage patterns in the corpus section, this section compares the rate and direction of regularization across our selected word pairs and examines what factors explain the variation.</p>
+    <p class="fade-in">Our analysis suggests that the selected nouns fall into three broad categories based on their regularization trajectory:</p>
+
+    <div class="category-trio fade-in">
+      <div class="cat-card fast">
+        <h3>Fast Regularizers</h3>
+        <p>Words that have undergone significant semantic or grammatical drift alongside escape from dominant specialist register ownership. Regularization occurred not merely because these words became more widely used, but because their grammatical identity fundamentally changed.</p>
+        <div class="cat-examples">
+          <span class="cat-example">data</span>
+          <span class="cat-example">media</span>
+          <span class="cat-example">formula</span>
+        </div>
+      </div>
+      <div class="cat-card contested">
+        <h3>Contested Forms</h3>
+        <p>Words that cross between academic and general registers without undergoing fundamental meaning change. These show genuine competition between classical and regularized forms, with neither decisively winning.</p>
+        <div class="cat-examples">
+          <span class="cat-example">formula</span>
+          <span class="cat-example">syllabus</span>
+          <span class="cat-example">stimulus</span>
+          <span class="cat-example">criterion</span>
+        </div>
+      </div>
+      <div class="cat-card classical">
+        <h3>Classical Retainers</h3>
+        <p>Words that remain firmly under specialist register ownership. These show little meaningful regularization pressure despite increased public exposure, because their primary context remains scientific communication.</p>
+        <div class="cat-examples">
+          <span class="cat-example">fungi</span>
+          <span class="cat-example">larvae</span>
+          <span class="cat-example">nuclei</span>
+          <span class="cat-example">algae</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider fade-in"></div>
+    <h3 class="section-title-sm fade-in">Contributing Factors</h3>
+    <p class="fade-in">Several additional factors likely contribute to variation within these categories:</p>
+
+    <div class="factor-list fade-in">
+      <div class="factor-item">
+        <div class="factor-icon">🔍</div>
+        <div class="factor-text">
+          <strong>Etymological transparency</strong>
+          <span>How obviously Latin or Greek a word appears to an average speaker may influence how much resistance speakers feel toward regularizing it.</span>
+        </div>
+      </div>
+      <div class="factor-item">
+        <div class="factor-icon">🗣</div>
+        <div class="factor-text">
+          <strong>Phonological awkwardness</strong>
+          <span>The phonological awkwardness of the regularized form — such as "stimuluses" — may slow adoption even in general registers.</span>
+        </div>
+      </div>
+      <div class="factor-item">
+        <div class="factor-icon">📈</div>
+        <div class="factor-text">
+          <strong>Frequency threshold effects (Zipf's Law)</strong>
+          <span>Words above a certain usage frequency enter everyday speech and face stronger regularization pressure. These factors merit further investigation beyond the scope of this report.</span>
+        </div>
+      </div>
+      <div class="factor-item">
+        <div class="factor-icon">🏛</div>
+        <div class="factor-text">
+          <strong>Register ownership</strong>
+          <span>Notably, increased cultural visibility — such as the recent popular interest in mycology — has not meaningfully accelerated regularization of "fungi," suggesting that register ownership is a more powerful stabilizing force than frequency of public exposure alone.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. PROJECTIONS -->
+<section class="section" id="projections">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 05</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">2040 Usage Projections</h2>
+
+    <p class="fade-in">Based on our corpus analysis and theoretical framework, this section presents data-driven projections for which plural forms are likely to be treated as standard by 2040. These projections are informed by three external forces we identify as primary drivers of change:</p>
+
+    <div class="force-accordion fade-in">
+      <div class="force-item">
+        <button class="force-toggle" onclick="toggleForce(this)">
+          <h4>🌐 Globalization and English Homogenization</h4>
+          <span class="force-arrow">▼</span>
+        </button>
+        <div class="force-body">
+          <div class="force-body-inner">
+            Globalization is accelerating contact between regional varieties of English and producing increasing pressure toward a simplified, accessible common standard. This pressure disproportionately favors regularized plural forms, as classical forms carry no communicative advantage outside specialist contexts and present an additional learning burden for international users.
+          </div>
+        </div>
+      </div>
+      <div class="force-item">
+        <button class="force-toggle" onclick="toggleForce(this)">
+          <h4>🤖 Technological Change and the Rise of AI</h4>
+          <span class="force-arrow">▼</span>
+        </button>
+        <div class="force-body">
+          <div class="force-body-inner">
+            The effect of AI on plural form standardization is more complex and corpus-dependent. Large language models are trained on existing text corpora, meaning they currently reinforce whichever form is already dominant in their training data. In practice this means AI tools are likely to simultaneously accelerate regularization in general registers — where regularized forms already dominate training data — while preserving classical forms in specialist academic contexts where those forms remain prevalent.
+            <br><br>
+            The net effect of AI on standardization will therefore depend heavily on what registers future training corpora prioritize. We hypothesize that without deliberate intervention in corpus curation and AI training methodology, AI tools will amplify existing frequency gaps rather than resolve them. We further recommend that regulations regarding the labeling and tracking of AI generated text be established, as discussed in the Recommendations section.
+          </div>
+        </div>
+      </div>
+      <div class="force-item">
+        <button class="force-toggle" onclick="toggleForce(this)">
+          <h4>📖 Rising Global Literacy and Non-Native Speaker Content Creation</h4>
+          <span class="force-arrow">▼</span>
+        </button>
+        <div class="force-body">
+          <div class="force-body-inner">
+            Rising global literacy, combined with the proliferation of digital content creation platforms, means that non-native English speakers now constitute the majority of active English content producers worldwide. Research in second language acquisition suggests that non-native speakers are sensitive to existing dominant patterns in the language they are acquiring, tending to reinforce high-frequency forms rather than innovating.
+            <br><br>
+            In the context of plural morphology, this is significant — regularized plural forms already dominate general usage and digital communication registers. This creates a self-reinforcing frequency cycle: as regularized forms become more frequent through non-native speaker usage, they become even more dominant in the data that future speakers are exposed to. This makes any reversal toward classical plural forms in general registers increasingly unlikely.
+            <br><br>
+            <em style="color:var(--ink-muted);font-size:0.85rem;">(cf. Verhoef et al., 2015 — non-native speaker effects on morphological patterns)</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider fade-in"></div>
+    <h3 class="section-title-sm fade-in">Projected Outcomes by Category</h3>
+
+    <div class="projection-grid fade-in">
+      <div class="proj-card fast">
+        <div class="proj-header">
+          <h4>Fast Regularizers</h4>
+          <span class="proj-badge">Regularization complete</span>
+        </div>
+        <div class="proj-body">
+          Words including <em>data</em>, <em>media</em>, and <em>formula</em> are projected to complete their regularization trajectory across all registers by 2040. The classical singular forms <em>datum</em> and <em>stratum</em> are projected to become effectively obsolete outside of narrow specialist academic usage. Dictionary entries for these words are expected to list the regularized or semantically dominant form as primary, with the classical form marked as archaic or specialist.
+        </div>
+      </div>
+      <div class="proj-card contested">
+        <div class="proj-header">
+          <h4>Contested Forms</h4>
+          <span class="proj-badge">Register divergence</span>
+        </div>
+        <div class="proj-body">
+          Words including <em>syllabus</em>, <em>stimulus</em>, <em>criterion</em>, and <em>phenomenon</em> are projected to remain genuinely contested through 2040, but with diverging trajectories across registers. In academic publishing, classical forms are projected to retain dominance. In general public usage and digital communication, regularized forms are projected to become the de facto standard. Dictionary entries are projected to list both forms as acceptable, with explicit register guidance.
+        </div>
+      </div>
+      <div class="proj-card classical">
+        <div class="proj-header">
+          <h4>Classical Retainers</h4>
+          <span class="proj-badge">No meaningful change</span>
+        </div>
+        <div class="proj-body">
+          Words including <em>fungi</em>, <em>larvae</em>, <em>nuclei</em>, and <em>algae</em> are projected to retain their classical forms as dominant across all registers through 2040. Specialist register ownership remains strong, public exposure has not produced meaningful regularization pressure historically, and the phonological awkwardness of some regularized alternatives such as "nucleuses" provides additional resistance.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. RECOMMENDATIONS -->
+<section class="section" id="recommendations">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 06</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Recommendations for Dictionaries and Education Policy</h2>
+
+    <p class="fade-in">This section presents practical recommendations for two primary audiences: lexicographers responsible for dictionary entries and labeling, and curriculum designers responsible for language education policy. We also raise an unresolved methodological question regarding the role of AI generated text in future corpus linguistics practice.</p>
+
+    <div class="rec-grid fade-in">
+      <div class="rec-column">
+        <h3>For Lexicographers</h3>
+        <div class="rec-row">
+          <span class="rec-tag fast">Fast</span>
+          <div class="rec-text">For fast regularizers such as <em>data</em> and <em>media</em>, list the regularized or semantically drifted form as primary, with the classical form marked as specialist or archaic where appropriate. Continuing to present these words as straightforwardly irregular plurals misrepresents current usage reality.</div>
+        </div>
+        <div class="rec-row">
+          <span class="rec-tag contested">Contested</span>
+          <div class="rec-text">For contested forms such as <em>formula</em>, <em>syllabus</em>, <em>stimulus</em>, and <em>phenomenon</em>, list both forms as acceptable with explicit register guidance. Presenting only one form as correct is both descriptively inaccurate and practically unhelpful for users.</div>
+        </div>
+        <div class="rec-row">
+          <span class="rec-tag classical">Classical</span>
+          <div class="rec-text">For classical retainers such as <em>fungi</em>, <em>larvae</em>, and <em>nuclei</em>, maintain classical forms as primary, with regularized alternatives noted as informal or non-standard where they exist.</div>
+        </div>
+      </div>
+      <div class="rec-column">
+        <h3>For Curriculum Designers</h3>
+        <div class="rec-row">
+          <span class="rec-tag fast">Fast</span>
+          <div class="rec-text">Teach the dominant contemporary form as standard and present the classical form as historical or specialist context only. Teaching "datum" as the standard singular of "data" in general English curricula is no longer warranted given current usage patterns.</div>
+        </div>
+        <div class="rec-row">
+          <span class="rec-tag contested">Contested</span>
+          <div class="rec-text">Present both classical and regularized forms explicitly, with clear register guidance. Students should understand that "phenomena" is expected in academic writing while "phenomenons" may appear in general contexts — treating one form as simply correct does students a disservice.</div>
+        </div>
+        <div class="rec-row">
+          <span class="rec-tag classical">Classical</span>
+          <div class="rec-text">Classical forms should be taught as standard, with regularized alternatives acknowledged as informal where they exist. Curricula should explicitly address register-dependent variation as digital communication becomes an increasingly dominant register.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ai-callout fade-in">
+      <h4>Unresolved Question: AI Generated Text in Corpus Methodology</h4>
+      <p>We raise the question of whether major corpus based dictionaries should begin disclosing the proportion of AI generated text present in their source corpora. As AI generated content enters public discourse at scale, corpus frequency data becomes increasingly difficult to interpret without knowing what proportion reflects natural human language use versus AI output patterns.</p>
+      <br>
+      <p>We recommend that lexicographic institutions develop clear standards for identifying and labeling AI generated text in reference corpora. Furthermore, we recommend maintaining separate AI generated and human generated corpora to allow researchers to track divergence between natural language change and AI driven pattern reinforcement over time.</p>
+      <br>
+      <p><em>Without such measures, future dictionary entries risk reflecting AI language patterns rather than genuine shifts in human usage — raising the deeper question: if AI generated text dominates future corpora, are we measuring natural language change, or are we measuring the linguistic habits of machines trained on past human language?</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- 7. CONCLUSION -->
+<section class="section" id="conclusion">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 07</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">Conclusion</h2>
+
+    <div class="fade-in">
+      <p>This report has examined the pluralization of Greek and Latin origin nouns in English, analyzing long-term usage patterns, rates of regularization, and the factors driving variation across words, registers, and disciplines. Our analysis suggests that the trajectory of any given noun is not random but is shaped by identifiable forces — most significantly, whether the word has undergone semantic or grammatical drift, and whether it has escaped dominant ownership by a single specialist register.</p>
+      <p>We identified three broad categories of words: fast regularizers, whose classical forms are effectively receding across all registers; contested forms, where classical and regularized plurals coexist in register-dependent competition; and classical retainers, where specialist register ownership continues to preserve classical forms despite increased public exposure. These categories, while not rigid, provide a practical framework for predicting future trajectories.</p>
+    </div>
+
+    <div class="conclusion-pull fade-in">
+      "Looking toward 2040, external forces — globalization, the rise of AI as a writing tool, and the growing dominance of non-native English speakers as content creators — will collectively accelerate regularization in general and digital registers while classical forms retain their position in specialist academic publishing."
+    </div>
+
+    <div class="fade-in">
+      <p>Crucially, the self-reinforcing nature of frequency cycles means that words which have already begun regularizing are unlikely to reverse course, and the frequency gap between classical and regularized forms is projected to widen significantly in general usage.</p>
+      <p>Our recommendations to lexicographers and curriculum designers reflect this complexity — resisting the temptation to declare one form correct across all contexts, and instead embracing register-sensitive guidance that accurately reflects how English is actually used. We additionally raise the unresolved question of how AI generated text should be handled in future corpus methodology, as this issue has direct implications for the reliability of frequency data on which all such analyses depend.</p>
+    </div>
+
+    <div class="conclusion-pull fade-in" style="font-size:1.35rem; margin-top:3rem;">
+      "Ultimately, the story of Greek and Latin plurals in English is a story about who owns a word. When a word belongs primarily to specialists, its classical form endures. When it escapes into the broader language — carried by technology, culture, or sheer frequency — regularization follows."
+    </div>
+
+    <p class="fade-in" style="margin-top:1.5rem;">Understanding this mechanism is essential for anyone responsible for documenting, teaching, or standardizing the English language in the decades ahead.</p>
+  </div>
+</section>
+
+<!-- 8. REFERENCES -->
+<section class="section" id="references">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-number">§ 08</span>
+      <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title fade-in">References</h2>
+
+    <div class="ref-group fade-in">
+      <h4>Corpora and Tools</h4>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>COCA — Corpus of Contemporary American English (1990–2022)<br>
+          <a href="https://www.english-corpora.org/coca/" target="_blank" rel="noopener">https://www.english-corpora.org/coca/</a></div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>COHA — Corpus of Historical American English<br>
+          <a href="https://www.english-corpora.org/coha/" target="_blank" rel="noopener">https://www.english-corpora.org/coha/</a></div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>Google Books Ngram Viewer (1900–2022)<br>
+          <a href="https://books.google.com/ngrams" target="_blank" rel="noopener">https://books.google.com/ngrams</a></div>
+      </div>
+    </div>
+
+    <div class="ref-group fade-in">
+      <h4>Academic Sources</h4>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>Gregersen, E. (2022). <em>History of English regularization.</em> Cambridge University Press.<br>
+          <a href="https://www.cambridge.org/core" target="_blank" rel="noopener">https://www.cambridge.org/core</a></div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>Verhoef, T. et al. (2015). Non-native speaker effects on morphological patterns. <em>Journal of Memory and Language.</em><br>
+          <a href="https://www.sciencedirect.com/science/article/pii/S0749596X15000790" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0749596X15000790</a></div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>English verb regularization in books and tweets. <em>Lingua / ScienceDirect.</em><br>
+          <a href="https://www.sciencedirect.com/science/article/pii/S0024384113002659" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0024384113002659</a></div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>Case report on Latin plural retention in medical writing. <em>Journal of Medical Case Reports.</em><br>
+          <a href="https://link.springer.com/article/10.1186/s13256-018-1562-x" target="_blank" rel="noopener">https://link.springer.com/article/10.1186/s13256-018-1562-x</a></div>
+      </div>
+    </div>
+
+    <div class="ref-group fade-in">
+      <h4>Style Guides and Reference Works</h4>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div>Huddleston, R. & Pullum, G. (2002). <em>The Cambridge Grammar of the English Language.</em> Cambridge University Press.</div>
+      </div>
+      <div class="ref-item">
+        <div class="ref-dot"></div>
+        <div><em>Additional references to be added by team.</em></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div>PBL Module 1 Report &nbsp;·&nbsp; 이종현교수님팬클럽</div>
+  <div style="margin-top:0.4rem;">이형빈, 서동규, 김현아, Zaya &nbsp;·&nbsp; Institute of Contemporary English &nbsp;·&nbsp; 2026</div>
+  <div style="margin-top:0.8rem; opacity:0.4; font-size:0.65rem;">Predicting the Future of Latin and Greek Plurals</div>
+</footer>
+
+<script>
+// ─── NAV TOGGLE (MOBILE) ───
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ─── ACTIVE NAV ON SCROLL ───
+const sections = document.querySelectorAll('section[id], main > section[id]');
+const links = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ─── FADE-IN ON SCROLL ───
+const fadeEls = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      e.target.style.transitionDelay = `${(i % 4) * 0.07}s`;
+      e.target.classList.add('visible');
+      fadeObserver.unobserve(e.target);
+    }
+  });
+}, { rootMargin: '0px 0px -60px 0px' });
+fadeEls.forEach(el => fadeObserver.observe(el));
+
+// ─── TABS ───
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tabId = 'tab-' + btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+
+// ─── FORCE ACCORDION ───
+function toggleForce(btn) {
+  const item = btn.closest('.force-item');
+  const body = item.querySelector('.force-body');
+  const inner = item.querySelector('.force-body-inner');
+  const isOpen = item.classList.contains('open');
+  // close all
+  document.querySelectorAll('.force-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.force-body').style.maxHeight = '0';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    body.style.maxHeight = inner.scrollHeight + 'px';
+  }
+}
+</script>
+</body>
+</html>
