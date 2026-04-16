@@ -8,802 +8,227 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --cream: #f5f0e8;
-    --cream-dark: #ede6d6;
-    --ink: #1a1610;
-    --ink-soft: #3d3528;
-    --ink-muted: #7a6e5f;
-    --navy: #1c2b4a;
-    --navy-light: #2e4270;
-    --gold: #b8860b;
-    --gold-light: #d4a520;
-    --rust: #8b3a2f;
-    --sage: #4a6741;
-    --rule: #c8bba8;
-    --accent-bg: #e8e0d0;
-    --card-bg: #faf7f2;
-    --serif: 'Playfair Display', Georgia, serif;
-    --body: 'Source Serif 4', Georgia, serif;
-    --mono: 'DM Mono', 'Courier New', monospace;
-  }
+:root{--cream:#f5f0e8;--cream-dark:#ede6d6;--ink:#1a1610;--ink-soft:#3d3528;--ink-muted:#7a6e5f;--navy:#1c2b4a;--navy-light:#2e4270;--gold:#b8860b;--gold-light:#d4a520;--rust:#8b3a2f;--sage:#4a6741;--rule:#c8bba8;--accent-bg:#e8e0d0;--card-bg:#faf7f2;--serif:'Playfair Display',Georgia,serif;--body:'Source Serif 4',Georgia,serif;--mono:'DM Mono','Courier New',monospace}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:1.05rem;line-height:1.75;font-weight:300}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:54px;box-shadow:0 2px 16px rgba(0,0,0,.25)}
+.nav-brand{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-light);white-space:nowrap;cursor:pointer;position:relative}
+.nav-brand .hint{font-size:.5rem;opacity:.45;letter-spacing:.08em;margin-left:.4rem;text-transform:lowercase}
+/* Easter egg */
+.prof-popup{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%) scale(.85);opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:200}
+.prof-popup img{width:130px;height:130px;object-fit:cover;object-position:top;border-radius:50%;border:3px solid var(--gold-light);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.prof-popup .prof-label{text-align:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.1em;color:rgba(255,255,255,.6);margin-top:.4rem;white-space:nowrap}
+.nav-brand:hover .prof-popup{opacity:1;transform:translateX(-50%) scale(1)}
+.prof-popup::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:var(--gold-light)}
 
-  html { scroll-behavior: smooth; }
+.nav-links{display:flex;gap:0;list-style:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;padding:0 .85rem;height:54px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:#fff;border-bottom-color:var(--gold-light)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:#fff}
+.nav-toggle span{display:block;width:22px;height:2px;background:currentColor;margin:4px 0;transition:.3s}
 
-  body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: var(--body);
-    font-size: 1.05rem;
-    line-height: 1.75;
-    font-weight: 300;
-  }
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;background:var(--navy);position:relative;overflow:hidden}
+.hero-texture{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 59px,rgba(255,255,255,.03) 59px,rgba(255,255,255,.03) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,rgba(255,255,255,.03) 59px,rgba(255,255,255,.03) 60px);pointer-events:none}
+.hero-ornament{position:absolute;top:54px;right:0;width:55vw;height:calc(100% - 54px);background:linear-gradient(135deg,rgba(184,134,11,.07) 0%,rgba(28,43,74,0) 60%);border-left:1px solid rgba(212,165,32,.15);pointer-events:none}
+.hero-content{position:relative;z-index:2;padding:7rem 3rem 4rem;max-width:900px}
+.hero-kicker{font-family:var(--mono);font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold-light);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.hero-kicker::before{content:'';display:inline-block;width:32px;height:1px;background:var(--gold)}
+.hero-title{font-family:var(--serif);font-size:clamp(2.2rem,5.5vw,4.2rem);font-weight:700;color:#fff;line-height:1.1;margin-bottom:1.5rem;letter-spacing:-.01em}
+.hero-title em{color:var(--gold-light);font-style:italic;font-weight:400}
+.hero-subtitle{font-size:1rem;color:rgba(255,255,255,.6);font-style:italic;margin-bottom:2.5rem;font-family:var(--body);font-weight:300}
+.hero-meta{display:flex;flex-wrap:wrap;gap:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.12)}
+.meta-item label{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.meta-item span{color:rgba(255,255,255,.85);font-size:.9rem}
+.hero-scroll{position:absolute;bottom:2rem;right:3rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.35);font-family:var(--mono);font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;animation:bounce 2s ease-in-out infinite}
+.hero-scroll svg{width:16px;opacity:.5}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: var(--navy);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2rem;
-    height: 54px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-  }
-  .nav-brand {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    white-space: nowrap;
-  }
-  .nav-links {
-    display: flex;
-    gap: 0;
-    list-style: none;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .nav-links::-webkit-scrollbar { display: none; }
-  .nav-links a {
-    color: rgba(255,255,255,0.75);
-    text-decoration: none;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0 0.85rem;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-  .nav-links a:hover, .nav-links a.active {
-    color: #fff;
-    border-bottom-color: var(--gold-light);
-  }
-  .nav-toggle {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    color: #fff;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: currentColor;
-    margin: 4px 0;
-    transition: 0.3s;
-  }
+/* LAYOUT */
+main{padding-top:54px}
+.section{padding:5rem 0;position:relative}
+.section:nth-child(even){background:var(--card-bg)}
+.container{max-width:900px;margin:0 auto;padding:0 2rem}
+.container-wide{max-width:1100px;margin:0 auto;padding:0 2rem}
 
-  /* ─── HERO ─── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 0;
-    background: var(--navy);
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-texture {
-    position: absolute;
-    inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px),
-      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.03) 59px, rgba(255,255,255,0.03) 60px);
-    pointer-events: none;
-  }
-  .hero-ornament {
-    position: absolute;
-    top: 54px; right: 0;
-    width: 55vw;
-    height: calc(100% - 54px);
-    background: linear-gradient(135deg, rgba(184,134,11,0.07) 0%, rgba(28,43,74,0) 60%);
-    border-left: 1px solid rgba(212,165,32,0.15);
-    pointer-events: none;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 7rem 3rem 4rem;
-    max-width: 900px;
-  }
-  .hero-kicker {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold-light);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .hero-kicker::before {
-    content: '';
-    display: inline-block;
-    width: 32px;
-    height: 1px;
-    background: var(--gold);
-  }
-  .hero-title {
-    font-family: var(--serif);
-    font-size: clamp(2.2rem, 5.5vw, 4.2rem);
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-  .hero-title em {
-    color: var(--gold-light);
-    font-style: italic;
-    font-weight: 400;
-  }
-  .hero-subtitle {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.6);
-    font-style: italic;
-    margin-bottom: 2.5rem;
-    font-family: var(--body);
-    font-weight: 300;
-  }
-  .hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,0.12);
-  }
-  .meta-item label {
-    display: block;
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.3rem;
-  }
-  .meta-item span {
-    color: rgba(255,255,255,0.85);
-    font-size: 0.9rem;
-    font-family: var(--body);
-  }
-  .hero-scroll {
-    position: absolute;
-    bottom: 2rem;
-    right: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    color: rgba(255,255,255,0.35);
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    animation: bounce 2s ease-in-out infinite;
-  }
-  .hero-scroll svg { width: 16px; opacity: 0.5; }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
-  }
+/* SECTION HEADERS */
+.section-header{display:flex;align-items:baseline;gap:1.25rem;margin-bottom:2.5rem}
+.section-number{font-family:var(--mono);font-size:.65rem;letter-spacing:.15em;color:var(--gold);text-transform:uppercase;white-space:nowrap;flex-shrink:0}
+.section-rule{flex:1;height:1px;background:var(--rule)}
+.section-title{font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;line-height:1.15;margin-bottom:1.5rem;color:var(--ink)}
+.section-title-sm{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin-bottom:1rem;color:var(--ink)}
+p{margin-bottom:1.2rem}
+p:last-child{margin-bottom:0}
 
-  /* ─── LAYOUT ─── */
-  main { padding-top: 54px; }
-  .section {
-    padding: 5rem 0;
-    position: relative;
-  }
-  .section:nth-child(even) { background: var(--card-bg); }
-  .container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
-  .container-wide {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
+/* ABSTRACT */
+.abstract-block{border-left:3px solid var(--gold);padding:1.5rem 2rem;background:var(--accent-bg);margin-bottom:2.5rem;position:relative}
+.abstract-block::before{content:'Abstract';font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.75rem}
+.abstract-block p{font-style:italic;color:var(--ink-soft);font-size:1rem}
 
-  /* ─── SECTION HEADERS ─── */
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 1.25rem;
-    margin-bottom: 2.5rem;
-  }
-  .section-number {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--gold);
-    text-transform: uppercase;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .section-rule {
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
-  .section-title {
-    font-family: var(--serif);
-    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-    font-weight: 700;
-    line-height: 1.15;
-    margin-bottom: 1.5rem;
-    color: var(--ink);
-  }
-  .section-title-sm {
-    font-family: var(--serif);
-    font-size: 1.35rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--ink);
-  }
+/* RQ */
+.rq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin-top:2rem}
+.rq-card{background:var(--navy);color:#fff;padding:1.5rem;position:relative;overflow:hidden;border-radius:2px}
+.rq-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.rq-number{font-family:var(--mono);font-size:2.5rem;color:rgba(255,255,255,.08);font-weight:500;position:absolute;bottom:.5rem;right:1rem;line-height:1;pointer-events:none}
+.rq-card p{font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.82);margin:0;position:relative;z-index:1}
 
-  /* ─── TYPOGRAPHY ─── */
-  p { margin-bottom: 1.2rem; }
-  p:last-child { margin-bottom: 0; }
+/* CORPUS TABS */
+.tab-group{margin-top:2.5rem}
+.tab-nav{display:flex;flex-wrap:wrap;border-bottom:2px solid var(--rule);margin-bottom:0}
+.tab-btn{background:none;border:none;cursor:pointer;font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);padding:.65rem 1.2rem;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
+.tab-btn.active,.tab-btn:hover{color:var(--navy);border-bottom-color:var(--navy)}
+.tab-panel{display:none;padding-top:1.5rem}
+.tab-panel.active{display:block}
 
-  /* ─── INTRO / ABSTRACT ─── */
-  .abstract-block {
-    border-left: 3px solid var(--gold);
-    padding: 1.5rem 2rem;
-    background: var(--accent-bg);
-    margin-bottom: 2.5rem;
-    position: relative;
-  }
-  .abstract-block::before {
-    content: 'Abstract';
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-bottom: 0.75rem;
-  }
-  .abstract-block p {
-    font-style: italic;
-    color: var(--ink-soft);
-    font-size: 1rem;
-  }
+/* inside tabs: trajectory groups */
+.traj-group{margin-bottom:2rem}
+.traj-label{display:flex;align-items:center;gap:.75rem;margin-bottom:.85rem}
+.traj-pill{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:2px}
+.traj-pill.fast{background:rgba(139,58,47,.12);color:var(--rust)}
+.traj-pill.contested{background:rgba(184,134,11,.12);color:var(--gold)}
+.traj-pill.classical{background:rgba(74,103,65,.12);color:var(--sage)}
+.traj-line{flex:1;height:1px;background:var(--rule)}
 
-  /* ─── RQ CARDS ─── */
-  .rq-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.25rem;
-    margin-top: 2rem;
-  }
-  .rq-card {
-    background: var(--navy);
-    color: #fff;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-  }
-  .rq-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--gold);
-  }
-  .rq-number {
-    font-family: var(--mono);
-    font-size: 2.5rem;
-    color: rgba(255,255,255,0.08);
-    font-weight: 500;
-    position: absolute;
-    bottom: 0.5rem;
-    right: 1rem;
-    line-height: 1;
-    pointer-events: none;
-  }
-  .rq-card p {
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: rgba(255,255,255,0.82);
-    margin: 0;
-    position: relative;
-    z-index: 1;
-  }
+/* NGRAM */
+.ngram-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+@media(max-width:700px){.ngram-pair{grid-template-columns:1fr}}
+.ngram-item{background:var(--card-bg);border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.ngram-label{background:var(--accent-bg);padding:.5rem .85rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--rule)}
+.ngram-forms{font-weight:500;color:var(--ink-soft)}
+.ngram-item iframe{width:100%;height:240px;border:none;display:block}
+.iframe-caption{padding:.4rem .85rem;font-size:.72rem;color:var(--ink-muted);font-style:italic;border-top:1px solid var(--rule)}
+.corpus-note{background:var(--accent-bg);border-left:3px solid var(--rust);padding:1rem 1.5rem;margin-bottom:2rem;font-size:.88rem;color:var(--ink-soft)}
+.corpus-note::before{content:'⚠ Methodology note — ';font-family:var(--mono);font-weight:500;color:var(--rust);font-size:.7rem;letter-spacing:.05em;text-transform:uppercase}
 
-  /* ─── CORPUS TABS ─── */
-  .tab-group { margin-top: 2.5rem; }
-  .tab-nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    border-bottom: 2px solid var(--rule);
-    margin-bottom: 0;
-  }
-  .tab-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    padding: 0.65rem 1.2rem;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .tab-btn.active, .tab-btn:hover {
-    color: var(--navy);
-    border-bottom-color: var(--navy);
-  }
-  .tab-panel { display: none; padding-top: 0; }
-  .tab-panel.active { display: block; }
+/* CATEGORY CARDS */
+.category-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin:2.5rem 0}
+@media(max-width:750px){.category-trio{grid-template-columns:1fr}}
+.cat-card{padding:2rem 1.5rem;border-top:4px solid;background:var(--card-bg);border-radius:0 0 2px 2px}
+.cat-card.fast{border-color:var(--rust)}.cat-card.contested{border-color:var(--gold)}.cat-card.classical{border-color:var(--sage)}
+.cat-card h3{font-family:var(--serif);font-size:1.15rem;font-weight:700;margin-bottom:.75rem}
+.cat-card.fast h3{color:var(--rust)}.cat-card.contested h3{color:var(--gold)}.cat-card.classical h3{color:var(--sage)}
+.cat-card p{font-size:.9rem;color:var(--ink-soft);margin:0 0 1rem}
+.cat-examples{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.cat-example{font-family:var(--mono);font-size:.7rem;padding:.2rem .5rem;border-radius:2px}
+.fast .cat-example{background:rgba(139,58,47,.1);color:var(--rust)}
+.contested .cat-example{background:rgba(184,134,11,.1);color:var(--gold)}
+.classical .cat-example{background:rgba(74,103,65,.1);color:var(--sage)}
 
-  /* ─── NGRAM IFRAMES ─── */
-  .ngram-pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
-    margin-bottom: 1.5rem;
-  }
-  @media (max-width: 700px) {
-    .ngram-pair { grid-template-columns: 1fr; }
-  }
-  .ngram-item {
-    background: var(--card-bg);
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .ngram-label {
-    background: var(--accent-bg);
-    padding: 0.5rem 0.85rem;
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--rule);
-  }
-  .ngram-forms {
-    font-weight: 500;
-    color: var(--ink-soft);
-  }
-  .ngram-item iframe {
-    width: 100%;
-    height: 260px;
-    border: none;
-    display: block;
-  }
-  .iframe-caption {
-    padding: 0.5rem 0.85rem;
-    font-size: 0.75rem;
-    color: var(--ink-muted);
-    font-style: italic;
-    border-top: 1px solid var(--rule);
-  }
-  .corpus-note {
-    background: var(--accent-bg);
-    border-left: 3px solid var(--rust);
-    padding: 1rem 1.5rem;
-    margin-bottom: 2rem;
-    font-size: 0.88rem;
-    color: var(--ink-soft);
-  }
-  .corpus-note::before {
-    content: '⚠ Methodology note — ';
-    font-family: var(--mono);
-    font-weight: 500;
-    color: var(--rust);
-    font-size: 0.7rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
+/* FACTOR LIST */
+.factor-list{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.factor-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem 1.25rem;background:var(--accent-bg);border-radius:2px}
+.factor-icon{font-size:1.25rem;flex-shrink:0;margin-top:.1rem}
+.factor-text strong{display:block;font-family:var(--serif);font-size:.95rem;font-weight:600;margin-bottom:.2rem}
+.factor-text span{font-size:.88rem;color:var(--ink-soft)}
 
-  /* ─── CATEGORY CARDS ─── */
-  .category-trio {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin: 2.5rem 0;
-  }
-  @media (max-width: 750px) {
-    .category-trio { grid-template-columns: 1fr; }
-  }
-  .cat-card {
-    padding: 2rem 1.5rem;
-    border-top: 4px solid;
-    position: relative;
-    background: var(--card-bg);
-    border-radius: 0 0 2px 2px;
-  }
-  .cat-card.fast { border-color: var(--rust); }
-  .cat-card.contested { border-color: var(--gold); }
-  .cat-card.classical { border-color: var(--sage); }
-  .cat-card h3 {
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-  .cat-card.fast h3 { color: var(--rust); }
-  .cat-card.contested h3 { color: var(--gold); }
-  .cat-card.classical h3 { color: var(--sage); }
-  .cat-card p { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 1rem; }
-  .cat-examples {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 0.5rem;
-  }
-  .cat-example {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-  }
-  .fast .cat-example { background: rgba(139,58,47,0.1); color: var(--rust); }
-  .contested .cat-example { background: rgba(184,134,11,0.1); color: var(--gold); }
-  .classical .cat-example { background: rgba(74,103,65,0.1); color: var(--sage); }
+/* REGISTER VISUAL WRAPPER */
+.register-viz-wrap{margin:2.5rem 0;border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--navy)}
+.register-viz-wrap iframe{width:100%;height:480px;border:none;display:block}
 
-  /* ─── FACTOR PILLS ─── */
-  .factor-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-  .factor-item {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    padding: 1rem 1.25rem;
-    background: var(--accent-bg);
-    border-radius: 2px;
-  }
-  .factor-icon {
-    font-size: 1.25rem;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-  .factor-text strong {
-    display: block;
-    font-family: var(--serif);
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0.2rem;
-  }
-  .factor-text span { font-size: 0.88rem; color: var(--ink-soft); }
+/* PBL PROGRESS CHART */
+.pbl-chart-wrap{margin:2.5rem 0;border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--card-bg)}
+.pbl-chart-wrap canvas{display:block;width:100%}
 
-  /* ─── PROJECTIONS ─── */
-  .projection-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-  }
-  .proj-card {
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .proj-header {
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .proj-card.fast .proj-header { background: rgba(139,58,47,0.08); }
-  .proj-card.contested .proj-header { background: rgba(184,134,11,0.08); }
-  .proj-card.classical .proj-header { background: rgba(74,103,65,0.08); }
-  .proj-header h4 {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  .proj-card.fast .proj-header h4 { color: var(--rust); }
-  .proj-card.contested .proj-header h4 { color: var(--gold); }
-  .proj-card.classical .proj-header h4 { color: var(--sage); }
-  .proj-badge {
-    font-family: var(--mono);
-    font-size: 0.58rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-  }
-  .fast .proj-badge { background: rgba(139,58,47,0.15); color: var(--rust); }
-  .contested .proj-badge { background: rgba(184,134,11,0.15); color: var(--gold); }
-  .classical .proj-badge { background: rgba(74,103,65,0.15); color: var(--sage); }
-  .proj-body { padding: 1rem 1.25rem; font-size: 0.88rem; color: var(--ink-soft); line-height: 1.65; }
+/* PROJECTIONS */
+.projection-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin:2rem 0}
+.proj-card{border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.proj-header{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center}
+.proj-card.fast .proj-header{background:rgba(139,58,47,.08)}
+.proj-card.contested .proj-header{background:rgba(184,134,11,.08)}
+.proj-card.classical .proj-header{background:rgba(74,103,65,.08)}
+.proj-header h4{font-family:var(--serif);font-size:1rem;font-weight:600}
+.proj-card.fast .proj-header h4{color:var(--rust)}
+.proj-card.contested .proj-header h4{color:var(--gold)}
+.proj-card.classical .proj-header h4{color:var(--sage)}
+.proj-badge{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .5rem;border-radius:2px}
+.fast .proj-badge{background:rgba(139,58,47,.15);color:var(--rust)}
+.contested .proj-badge{background:rgba(184,134,11,.15);color:var(--gold)}
+.classical .proj-badge{background:rgba(74,103,65,.15);color:var(--sage)}
+.proj-body{padding:1rem 1.25rem;font-size:.88rem;color:var(--ink-soft);line-height:1.65}
 
-  /* ─── EXTERNAL FORCES ─── */
-  .force-accordion { margin: 1.5rem 0; }
-  .force-item {
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    margin-bottom: 0.75rem;
-    overflow: hidden;
-  }
-  .force-toggle {
-    width: 100%;
-    background: var(--card-bg);
-    border: none;
-    cursor: pointer;
-    padding: 1rem 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: left;
-    transition: background 0.2s;
-  }
-  .force-toggle:hover { background: var(--accent-bg); }
-  .force-toggle h4 {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .force-arrow {
-    font-family: var(--mono);
-    font-size: 0.9rem;
-    color: var(--ink-muted);
-    transition: transform 0.3s;
-    flex-shrink: 0;
-    margin-left: 1rem;
-  }
-  .force-item.open .force-arrow { transform: rotate(180deg); }
-  .force-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s ease;
-  }
-  .force-body-inner {
-    padding: 0 1.25rem 1.25rem;
-    font-size: 0.9rem;
-    color: var(--ink-soft);
-    line-height: 1.7;
-    border-top: 1px solid var(--rule);
-    padding-top: 1rem;
-    margin-top: -1px;
-  }
+/* ACCORDIONS */
+.force-accordion{margin:1.5rem 0}
+.force-item{border:1px solid var(--rule);border-radius:2px;margin-bottom:.75rem;overflow:hidden}
+.force-toggle{width:100%;background:var(--card-bg);border:none;cursor:pointer;padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;text-align:left;transition:background .2s}
+.force-toggle:hover{background:var(--accent-bg)}
+.force-toggle h4{font-family:var(--serif);font-size:1rem;font-weight:600;color:var(--navy)}
+.force-arrow{font-family:var(--mono);font-size:.9rem;color:var(--ink-muted);transition:transform .3s;flex-shrink:0;margin-left:1rem}
+.force-item.open .force-arrow{transform:rotate(180deg)}
+.force-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.force-body-inner{padding:0 1.25rem 1.25rem;font-size:.9rem;color:var(--ink-soft);line-height:1.7;border-top:1px solid var(--rule);padding-top:1rem;margin-top:-1px}
 
-  /* ─── RECOMMENDATIONS ─── */
-  .rec-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  @media (max-width: 650px) {
-    .rec-grid { grid-template-columns: 1fr; }
-  }
-  .rec-column h3 {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    font-weight: 700;
-    padding-bottom: 0.6rem;
-    border-bottom: 2px solid var(--rule);
-    margin-bottom: 1rem;
-    color: var(--navy);
-  }
-  .rec-row {
-    display: flex;
-    gap: 0.85rem;
-    margin-bottom: 1rem;
-    padding: 0.85rem;
-    background: var(--accent-bg);
-    border-radius: 2px;
-    font-size: 0.88rem;
-    line-height: 1.6;
-  }
-  .rec-tag {
-    font-family: var(--mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.15rem 0.45rem;
-    border-radius: 2px;
-    white-space: nowrap;
-    height: fit-content;
-    margin-top: 0.1rem;
-    flex-shrink: 0;
-  }
-  .rec-tag.fast { background: rgba(139,58,47,0.12); color: var(--rust); }
-  .rec-tag.contested { background: rgba(184,134,11,0.12); color: var(--gold); }
-  .rec-tag.classical { background: rgba(74,103,65,0.12); color: var(--sage); }
-  .rec-text { color: var(--ink-soft); }
-  .ai-callout {
-    background: var(--navy);
-    color: #fff;
-    padding: 2rem;
-    margin-top: 2rem;
-    border-radius: 2px;
-    position: relative;
-    overflow: hidden;
-  }
-  .ai-callout::before {
-    content: '?';
-    position: absolute;
-    right: -0.5rem;
-    top: -1rem;
-    font-family: var(--serif);
-    font-size: 12rem;
-    color: rgba(255,255,255,0.04);
-    line-height: 1;
-    font-weight: 700;
-    pointer-events: none;
-  }
-  .ai-callout h4 {
-    font-family: var(--serif);
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--gold-light);
-    margin-bottom: 0.75rem;
-  }
-  .ai-callout p { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.65; margin-bottom: 0; }
+/* RECS */
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2rem}
+@media(max-width:650px){.rec-grid{grid-template-columns:1fr}}
+.rec-column h3{font-family:var(--serif);font-size:1.1rem;font-weight:700;padding-bottom:.6rem;border-bottom:2px solid var(--rule);margin-bottom:1rem;color:var(--navy)}
+.rec-row{display:flex;gap:.85rem;margin-bottom:1rem;padding:.85rem;background:var(--accent-bg);border-radius:2px;font-size:.88rem;line-height:1.6}
+.rec-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .45rem;border-radius:2px;white-space:nowrap;height:fit-content;margin-top:.1rem;flex-shrink:0}
+.rec-tag.fast{background:rgba(139,58,47,.12);color:var(--rust)}
+.rec-tag.contested{background:rgba(184,134,11,.12);color:var(--gold)}
+.rec-tag.classical{background:rgba(74,103,65,.12);color:var(--sage)}
+.rec-text{color:var(--ink-soft)}
+.ai-callout{background:var(--navy);color:#fff;padding:2rem;margin-top:2rem;border-radius:2px;position:relative;overflow:hidden}
+.ai-callout::before{content:'?';position:absolute;right:-.5rem;top:-1rem;font-family:var(--serif);font-size:12rem;color:rgba(255,255,255,.04);line-height:1;font-weight:700;pointer-events:none}
+.ai-callout h4{font-family:var(--serif);font-size:1.1rem;font-weight:600;color:var(--gold-light);margin-bottom:.75rem}
+.ai-callout p{font-size:.9rem;color:rgba(255,255,255,.8);line-height:1.65;margin-bottom:0}
 
-  /* ─── CONCLUSION ─── */
-  .conclusion-pull {
-    font-family: var(--serif);
-    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.4;
-    color: var(--navy);
-    border-left: 4px solid var(--gold);
-    padding: 1.25rem 2rem;
-    margin: 2.5rem 0;
-    background: var(--accent-bg);
-  }
+/* CONCLUSION */
+.conclusion-pull{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:400;font-style:italic;line-height:1.4;color:var(--navy);border-left:4px solid var(--gold);padding:1.25rem 2rem;margin:2.5rem 0;background:var(--accent-bg)}
 
-  /* ─── REFERENCES ─── */
-  .ref-group { margin-bottom: 2rem; }
-  .ref-group h4 {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--rule);
-  }
-  .ref-item {
-    display: flex;
-    gap: 0.85rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(200,187,168,0.4);
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-  .ref-item:last-child { border-bottom: none; }
-  .ref-item a {
-    color: var(--navy-light);
-    text-decoration: none;
-    word-break: break-all;
-  }
-  .ref-item a:hover { text-decoration: underline; color: var(--gold); }
-  .ref-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--gold);
-    flex-shrink: 0;
-    margin-top: 0.45rem;
-  }
+/* REFS */
+.ref-group{margin-bottom:2rem}
+.ref-group h4{font-family:var(--mono);font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.85rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+.ref-item{display:flex;gap:.85rem;padding:.75rem 0;border-bottom:1px solid rgba(200,187,168,.4);font-size:.875rem;line-height:1.5}
+.ref-item:last-child{border-bottom:none}
+.ref-item a{color:var(--navy-light);text-decoration:none;word-break:break-all}
+.ref-item a:hover{text-decoration:underline;color:var(--gold)}
+.ref-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.45rem}
 
-  /* ─── FOOTER ─── */
-  footer {
-    background: var(--ink);
-    color: rgba(255,255,255,0.45);
-    text-align: center;
-    padding: 2.5rem 2rem;
-    font-size: 0.78rem;
-    font-family: var(--mono);
-    letter-spacing: 0.08em;
-    line-height: 1.8;
-  }
-  footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
-  footer a:hover { color: var(--gold-light); }
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.45);text-align:center;padding:2.5rem 2rem;font-size:.78rem;font-family:var(--mono);letter-spacing:.08em;line-height:1.8}
+footer a{color:rgba(255,255,255,.6);text-decoration:none}
+footer a:hover{color:var(--gold-light)}
 
-  /* ─── UTILITIES ─── */
-  .divider {
-    width: 48px;
-    height: 2px;
-    background: var(--gold);
-    margin: 1.5rem 0;
-  }
-  .text-muted { color: var(--ink-muted); font-size: 0.88rem; }
-  .mt-2 { margin-top: 2rem; }
+/* UTILS */
+.divider{width:48px;height:2px;background:var(--gold);margin:1.5rem 0}
+.text-muted{color:var(--ink-muted);font-size:.88rem}
+.mt-2{margin-top:2rem}
+.fade-in{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
 
-  /* ─── SCROLL ANIMATIONS ─── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-links.open {
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 54px; left: 0; right: 0;
-      background: var(--navy);
-      padding: 1rem 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      z-index: 99;
-    }
-    .nav-links.open a { height: auto; padding: 0.75rem 1.5rem; }
-    .nav-toggle { display: block; }
-    .hero-content { padding: 5rem 1.5rem 3rem; }
-    .section { padding: 3.5rem 0; }
-    .container, .container-wide { padding: 0 1.25rem; }
-    .category-trio { grid-template-columns: 1fr; }
-    .rec-grid { grid-template-columns: 1fr; }
-  }
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;top:54px;left:0;right:0;background:var(--navy);padding:1rem 0;box-shadow:0 8px 24px rgba(0,0,0,.3);z-index:99}
+  .nav-links.open a{height:auto;padding:.75rem 1.5rem}
+  .nav-toggle{display:block}
+  .hero-content{padding:5rem 1.5rem 3rem}
+  .section{padding:3.5rem 0}
+  .container,.container-wide{padding:0 1.25rem}
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-brand">ICE · 2026 White Paper</div>
+  <div class="nav-brand" id="navBrand">
+    이종현교수님팬클럽
+    <span class="hint">✦ hover</span>
+    <div class="prof-popup">
+      <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAMZAyQDASIAAhEBAxEB/8QAHQABAAICAwEBAAAAAAAAAAAAAAEDAgQFBgcICf/EAEsQAAEDAwMBBgMGAwYDBgUEAwEAAhEDBCEFEjFBBhMiUWFxBzKBFEKRobHBCCPRM1JicuHwFSQ0FkNzgpLxJVNjorIXJjXCN0R0/8QAGgEBAQEBAQEBAAAAAAAAAAAAAAECAwQFBv/EACYRAQEAAgIDAQADAQACAwAAAAABAhEDIQQSMUETIlEyBUJhcbH/2gAMAwEAAhEDEQA/APrJERAREQEREBERAREQEREBElEDqpUIgIERAQp0RARMogIERAREQEREBERARAhQEREBERAREQEREBERAREQFClEBERAUIiAiIqCSgRQE6onsghERARE6qgiIFAREQEREBERAREQEREBERAREQEREBERAREVBERTQIiKgiIqB4UIiCEREBERAREQEREBERBEopRBYiIsgiIgIiICIiAiIgIimEESiIgFAiIJPuoREBEhIQSoUqEAKYRMoIRFMIIREQEREAKeqj0QoCIiAiIgInKICIiAiIgIiICIoQSoKKJHugmUUSE9ignhCoRBMooRAREQERFQREQERE+giIoCIiAiIgIiICIiAiIgIiICIioIiKAiIgIiKgiIgIiIIRSoVBQiICIiAiIgIiICInVBIRQiCxERZBERAREQECIgIiICIiB0lFPRAghCiICkKEQSiIgIiICIiAiIgKFKIIRCgQSVEIgQEREBERAREQEREBERARFi4hoJJgdSgyWtqN7bWFo+6u6opUmCXOK0db12y0m0fd393a2FowS64uqoY0ew5K+cfiN8b+zd/wBoalvZ6Lc9rKFuB9jp1nGjaveBLnupgb3x0BEdVVk29s1LtxWNQU7OhY2gPyuv6zu9ePNtCmHVPxDVwru0fa6qHubeyDlr6OgXDWN8p3eL8l8+aj8fO31Wiz7JU0fQLR+GUrKjSpmJ6797v/tC6Z2i+LHxDqVjWHbbVX02mZt3OYxv1DGfom43MX1X/wBpe0djjUe09luLZHeUnW0H/wA9Mghb1l211Zr2urVBfUBG+vZ2v2pjT6uokuH1pr43tvjN8QaENte2esVi5oG19QSHdRBBlU3PxV7e3NYC51q5dcEw2o5obUHsQMJuL6x902nb+xc11SrQfXt2/NcWTm12s/ztB30//M0Ls2k6rYarai5sLmnWpdYcJHuOi/N6/wC2Wu6peuuL3XL+pehndufXrEuLfIu5I91vaF2i1nSz9toVaREjcBsdxxjy+ilpcI/R/cImRHugIImV8W9kvixcm93axUNOg6B3tpc1LZ1M9TFOQfrhej9lPi7RGq/ZbftTV1SjAije92K8/wCBwA7w+kkpO2bhp9GJlda7LdrtN1umBQuGGoI3NAILf8zTlp912VpBEhVgRSoQERFAREVBERAREUBERAREQEREBERAREQEREBERAREQERFQREQERFQUcKVBQCiFEEIiICIiAiIgIiICIiCxOqIsh9UT0UlBHRERAKIpQQiJ0QOiIiAeU6okICd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" alt="Professor" />
+      <div class="prof-label">이종현 교수님 🎓</div>
+    </div>
+  </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#intro">Introduction</a></li>
     <li><a href="#rq">Questions</a></li>
     <li><a href="#corpus">Corpus</a></li>
     <li><a href="#analysis">Analysis</a></li>
+    <li><a href="#registers">Registers</a></li>
+    <li><a href="#pbl">PBL Progress</a></li>
     <li><a href="#projections">Projections</a></li>
     <li><a href="#recommendations">Policy</a></li>
     <li><a href="#conclusion">Conclusion</a></li>
@@ -823,643 +248,709 @@
     <h1 class="hero-title">Predicting the Future of <em>Latin and Greek Plurals</em></h1>
     <p class="hero-subtitle">2026 White Paper Contribution</p>
     <div class="hero-meta">
-      <div class="meta-item">
-        <label>Team</label>
-        <span>이종현교수님팬클럽</span>
-      </div>
-      <div class="meta-item">
-        <label>Members</label>
-        <span>이형빈, 서동규, 김현아, Zaya</span>
-      </div>
-      <div class="meta-item">
-        <label>Published</label>
-        <span>2026</span>
-      </div>
+      <div class="meta-item"><label>Team</label><span>이종현교수님팬클럽</span></div>
+      <div class="meta-item"><label>Members</label><span>이형빈, 서동규, 김현아, Zaya</span></div>
+      <div class="meta-item"><label>Published</label><span>2026</span></div>
     </div>
   </div>
-  <div class="hero-scroll">
-    scroll
-    <svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M8 4v16M2 14l6 6 6-6"/>
-    </svg>
-  </div>
+  <div class="hero-scroll">scroll<svg viewBox="0 0 16 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 4v16M2 14l6 6 6-6"/></svg></div>
 </section>
 
 <main>
 
-<!-- 1. INTRODUCTION -->
+<!-- § 01 INTRODUCTION -->
 <section class="section" id="intro">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 01</span>
-      <div class="section-rule"></div>
-    </div>
-    <h2 class="section-title fade-in">Introduction</h2>
-
-    <div class="abstract-block fade-in">
-      <p>The question of whether to write "criteria" or "criterions," "formulae" or "formulas," "stimuli" or "stimuluses" may seem trivial at first glance. However, for language professionals — lexicographers, educators, editors, and policymakers — these choices reflect deeper forces shaping the trajectory of English.</p>
-    </div>
-
-    <div class="fade-in">
-      <p>Greek and Latin plural forms are undergoing measurable change, and understanding the direction and speed of that change is essential for anyone responsible for standardizing or teaching the language.</p>
-      <p>This report investigates how and why certain nouns of Greek and Latin origin are shifting toward regularized English plurals while others retain their classical forms. We argue that two primary forces drive this variation.</p>
-    </div>
-
-    <div class="divider fade-in"></div>
-
-    <div class="factor-list fade-in">
-      <div class="factor-item">
-        <div class="factor-icon">①</div>
-        <div class="factor-text">
-          <strong>Semantic or grammatical drift</strong>
-          <span>Words that undergo drift — particularly when escaping dominant ownership by a single specialist register — tend to regularize across all registers. "Data" is the clearest example of this phenomenon.</span>
-        </div>
-      </div>
-      <div class="factor-item">
-        <div class="factor-icon">②</div>
-        <div class="factor-text">
-          <strong>Cross-register migration without meaning change</strong>
-          <span>Words that cross between academic and general public registers without undergoing meaning change tend to remain contested, with both forms competing simultaneously.</span>
-        </div>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 01</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Introduction</h2>
+  <div class="abstract-block fade-in">
+    <p>The question of whether to write "criteria" or "criterions," "formulae" or "formulas," "stimuli" or "stimuluses" may seem trivial at first glance. However, for language professionals — lexicographers, educators, editors, and policymakers — these choices reflect deeper forces shaping the trajectory of English.</p>
+  </div>
+  <div class="fade-in">
+    <p>Greek and Latin plural forms are undergoing measurable change, and understanding the direction and speed of that change is essential for anyone responsible for standardizing or teaching the language.</p>
+    <p>This report investigates how and why certain nouns of Greek and Latin origin are shifting toward regularized English plurals while others retain their classical forms. We argue that two primary forces drive this variation.</p>
+  </div>
+  <div class="divider fade-in"></div>
+  <div class="factor-list fade-in">
+    <div class="factor-item">
+      <div class="factor-icon">①</div>
+      <div class="factor-text">
+        <strong>Semantic or grammatical drift</strong>
+        <span>Words that undergo drift — particularly when escaping dominant ownership by a single specialist register — tend to regularize across all registers. "Data" is the clearest example of this phenomenon.</span>
       </div>
     </div>
-
-    <div class="fade-in mt-2">
-      <p>Words that remain firmly within specialist registers, such as "fungi," tend to retain their classical forms regardless of increased public exposure.</p>
-      <p>To investigate these patterns, our team selected a set of Greek and Latin origin nouns spanning general usage and discipline-specific contexts, examining their usage patterns across corpora and time periods to produce data-driven projections for 2040.</p>
+    <div class="factor-item">
+      <div class="factor-icon">②</div>
+      <div class="factor-text">
+        <strong>Cross-register migration without meaning change</strong>
+        <span>Words that cross between academic and general public registers without undergoing meaning change tend to remain contested, with both forms competing simultaneously.</span>
+      </div>
     </div>
   </div>
+  <div class="fade-in mt-2">
+    <p>Words that remain firmly within specialist registers, such as "fungi," tend to retain their classical forms regardless of increased public exposure.</p>
+    <p>To investigate these patterns, our team selected a set of Greek and Latin origin nouns spanning general usage and discipline-specific contexts, examining their usage patterns across corpora and time periods to produce data-driven projections for 2040.</p>
+  </div>
+</div>
 </section>
 
-<!-- 2. RESEARCH QUESTIONS -->
+<!-- § 02 RESEARCH QUESTIONS -->
 <section class="section" id="rq">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 02</span>
-      <div class="section-rule"></div>
-    </div>
-    <h2 class="section-title fade-in">Research Questions</h2>
-    <p class="fade-in">This report addresses the following research questions:</p>
-
-    <div class="rq-grid fade-in">
-      <div class="rq-card">
-        <p>Which nouns are shifting toward regularized English plurals, and which retain their classical forms? What drives this difference — and does the explanation vary depending on whether the word has undergone semantic or grammatical drift, or whether it straddles multiple registers?</p>
-        <div class="rq-number">01</div>
-      </div>
-      <div class="rq-card">
-        <p>What patterns emerge when usage data is examined across registers, disciplines, and time periods? Specifically, do specialist registers and general public registers show diverging trajectories for the same word?</p>
-        <div class="rq-number">02</div>
-      </div>
-      <div class="rq-card">
-        <p>Which plural forms are most likely to be treated as standard by 2040 — and by whom? We examine this question separately across three contexts: dictionary entries, academic publishing norms, and general public usage including social media.</p>
-        <div class="rq-number">03</div>
-      </div>
-      <div class="rq-card">
-        <p>What external forces — including globalization, technological change, and the rise of non-native English speakers as content creators — are likely to accelerate or complicate these trends toward 2040?</p>
-        <div class="rq-number">04</div>
-      </div>
-    </div>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 02</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Research Questions</h2>
+  <p class="fade-in">This report addresses the following research questions:</p>
+  <div class="rq-grid fade-in">
+    <div class="rq-card"><p>Which nouns are shifting toward regularized English plurals, and which retain their classical forms? What drives this difference — and does the explanation vary depending on whether the word has undergone semantic or grammatical drift, or whether it straddles multiple registers?</p><div class="rq-number">01</div></div>
+    <div class="rq-card"><p>What patterns emerge when usage data is examined across registers, disciplines, and time periods? Specifically, do specialist registers and general public registers show diverging trajectories for the same word?</p><div class="rq-number">02</div></div>
+    <div class="rq-card"><p>Which plural forms are most likely to be treated as standard by 2040 — and by whom? We examine this question separately across three contexts: dictionary entries, academic publishing norms, and general public usage including social media.</p><div class="rq-number">03</div></div>
+    <div class="rq-card"><p>What external forces — including globalization, technological change, and the rise of non-native English speakers as content creators — are likely to accelerate or complicate these trends toward 2040?</p><div class="rq-number">04</div></div>
   </div>
+</div>
 </section>
 
-<!-- 3. CORPUS ANALYSIS -->
+<!-- § 03 CORPUS ANALYSIS — regrouped by trajectory -->
 <section class="section" id="corpus">
-  <div class="container-wide">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 03</span>
-      <div class="section-rule"></div>
+<div class="container-wide">
+  <div class="section-header fade-in"><span class="section-number">§ 03</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Corpus-Based Usage Analysis</h2>
+  <div class="corpus-note fade-in">Google Ngram Viewer data reflects primarily published book corpora, which tends to lag behind spoken and digital language change. COCA data covers 1990–2022 and may not fully capture emerging trends in newer registers such as social media and digital communication. These limitations are acknowledged and discussed further in the Recommendations section.</div>
+  <p class="fade-in">Data was drawn from COCA, COHA, and Google Books Ngram Viewer (1900–2022). Rather than organizing by academic discipline, we present the data here grouped by <strong>regularization trajectory</strong> — the primary analytical framework of this report. This grouping makes the underlying patterns directly visible in the data. Select a trajectory category to explore:</p>
+
+  <div class="tab-group fade-in">
+    <div class="tab-nav">
+      <button class="tab-btn active" data-tab="t-fast">🔴 Fast Regularizers</button>
+      <button class="tab-btn" data-tab="t-contested">🟡 Contested Forms</button>
+      <button class="tab-btn" data-tab="t-classical">🟢 Classical Retainers</button>
     </div>
-    <h2 class="section-title fade-in">Corpus-Based Usage Analysis</h2>
 
-    <div class="corpus-note fade-in">
-      Google Ngram Viewer data reflects primarily published book corpora, which tends to lag behind spoken and digital language change. COCA data covers 1990–2022 and may not fully capture emerging trends in newer registers such as social media and digital communication. These limitations are acknowledged and discussed further in the Recommendations section.
-    </div>
-
-    <p class="fade-in">Data was drawn from the Corpus of Contemporary American English (COCA), the Corpus of Historical American English (COHA), and Google Books Ngram Viewer (1900–2022). For each word pair, we compare the frequency of the classical plural form against the regularized English plural form across time. Select a category below to explore the data:</p>
-
-    <div class="tab-group fade-in">
-      <div class="tab-nav">
-        <button class="tab-btn active" data-tab="general">General Usage</button>
-        <button class="tab-btn" data-tab="biology">Biology</button>
-        <button class="tab-btn" data-tab="philosophy">Philosophy / Academic</button>
-        <button class="tab-btn" data-tab="mathsci">Mathematics / Science</button>
-      </div>
-
-      <!-- GENERAL -->
-      <div class="tab-panel active" id="tab-general">
+    <!-- FAST REGULARIZERS -->
+    <div class="tab-panel active" id="tab-t-fast">
+      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:1.5rem;">These words have undergone semantic or grammatical drift alongside escape from specialist register ownership. Observe the steep divergence between classical and regularized forms.</p>
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill fast">Philosophy / Academic</span><div class="traj-line"></div></div>
         <div class="ngram-pair">
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">criterions vs. criteria</span><span>NOUN · General</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=criterions,criteria&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: criterions vs criteria"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">formulae vs. formulas</span><span>NOUN · General</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=formulae,formulas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: formulae vs formulas"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-        </div>
-        <div class="ngram-pair">
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">syllabi vs. syllabuses</span><span>NOUN · General</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=syllabi,syllabuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: syllabi vs syllabuses"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">cacti vs. cactuses</span><span>NOUN · General</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=cacti,cactuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: cacti vs cactuses"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- BIOLOGY -->
-      <div class="tab-panel" id="tab-biology">
-        <div class="ngram-pair">
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">bacteria vs. bacteriums</span><span>NOUN · Biology</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=bacteria,bacteriums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: bacteria vs bacteriums"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">fungi vs. funguses</span><span>NOUN · Biology</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=fungi,funguses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: fungi vs funguses"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-        </div>
-        <div class="ngram-pair">
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">larvae vs. larvas</span><span>NOUN · Biology</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=larvae,larvas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: larvae vs larvas"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">nuclei vs. nucleuses</span><span>NOUN · Biology</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=nuclei,nucleuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: nuclei vs nucleuses"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-        </div>
-        <div class="ngram-pair">
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">algae vs. algas</span><span>NOUN · Biology</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=algae,algas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: algae vs algas"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- PHILOSOPHY -->
-      <div class="tab-panel" id="tab-philosophy">
-        <div class="ngram-pair">
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">data vs. datums</span><span>NOUN · Philosophy / Academic</span></div>
+            <div class="ngram-label"><span class="ngram-forms">data vs. datums</span><span>datum → data (mass noun drift)</span></div>
             <iframe src="https://books.google.com/ngrams/interactive_chart?content=data,datums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: data vs datums"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">media vs. mediums</span><span>NOUN · Philosophy / Academic</span></div>
+            <div class="ngram-label"><span class="ngram-forms">media vs. mediums</span><span>medium → media (semantic drift)</span></div>
             <iframe src="https://books.google.com/ngrams/interactive_chart?content=media,mediums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: media vs mediums"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
         </div>
         <div class="ngram-pair">
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">phenomena vs. phenomenons</span><span>NOUN · Philosophy / Academic</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=phenomena,phenomenons&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: phenomena vs phenomenons"></iframe>
-            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
-          </div>
-          <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">strata vs. stratums</span><span>NOUN · Philosophy / Academic</span></div>
+            <div class="ngram-label"><span class="ngram-forms">strata vs. stratums</span><span>stratum/strata — near-obsolete singular</span></div>
             <iframe src="https://books.google.com/ngrams/interactive_chart?content=strata,stratums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: strata vs stratums"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
         </div>
       </div>
-
-      <!-- MATH/SCIENCE -->
-      <div class="tab-panel" id="tab-mathsci">
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill fast">General Usage</span><div class="traj-line"></div></div>
         <div class="ngram-pair">
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">radii vs. radiuses</span><span>NOUN · Mathematics / Science</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=radii,radiuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: radii vs radiuses"></iframe>
+            <div class="ngram-label"><span class="ngram-forms">formulae vs. formulas</span><span>formula — strong regularization trend</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=formulae,formulas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: formulae vs formulas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTESTED FORMS -->
+    <div class="tab-panel" id="tab-t-contested">
+      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:1.5rem;">These words cross registers without fundamental meaning change. Notice genuine competition — neither form decisively wins in the data.</p>
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill contested">General Usage</span><div class="traj-line"></div></div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">criterions vs. criteria</span><span>criterion — academic vs. general contest</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=criterions,criteria&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: criterions vs criteria"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">matrices vs. matrixes</span><span>NOUN · Mathematics / Science</span></div>
+            <div class="ngram-label"><span class="ngram-forms">syllabi vs. syllabuses</span><span>syllabus — education register split</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=syllabi,syllabuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: syllabi vs syllabuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">cacti vs. cactuses</span><span>cactus — general/popular split</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=cacti,cactuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: cacti vs cactuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill contested">Philosophy / Academic</span><div class="traj-line"></div></div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">phenomena vs. phenomenons</span><span>phenomenon — strong academic retention</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=phenomena,phenomenons&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: phenomena vs phenomenons"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill contested">Mathematics / Science</span><div class="traj-line"></div></div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">stimuli vs. stimuluses</span><span>stimulus — phonological resistance factor</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=stimuli,stimuluses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: stimuli vs stimuluses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">matrices vs. matrixes</span><span>matrix — technical vs. general split</span></div>
             <iframe src="https://books.google.com/ngrams/interactive_chart?content=matrices,matrixes&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: matrices vs matrixes"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
         </div>
         <div class="ngram-pair">
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">vertices vs. vertexes</span><span>NOUN · Mathematics / Science</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=vertices,vertexes&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: vertices vs vertexes"></iframe>
+            <div class="ngram-label"><span class="ngram-forms">radii vs. radiuses</span><span>radius — classical stable in technical use</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=radii,radiuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: radii vs radiuses"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
           <div class="ngram-item">
-            <div class="ngram-label"><span class="ngram-forms">stimuli vs. stimuluses</span><span>NOUN · Mathematics / Science</span></div>
-            <iframe src="https://books.google.com/ngrams/interactive_chart?content=stimuli,stimuluses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: stimuli vs stimuluses"></iframe>
+            <div class="ngram-label"><span class="ngram-forms">vertices vs. vertexes</span><span>vertex — geometry register holds classical form</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=vertices,vertexes&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: vertices vs vertexes"></iframe>
             <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
           </div>
         </div>
       </div>
-    </div><!-- /tab-group -->
+    </div>
 
-    <p class="text-muted fade-in" style="margin-top:1.5rem;">Note: COCA frequency data to be inserted by the team in the final version.</p>
+    <!-- CLASSICAL RETAINERS -->
+    <div class="tab-panel" id="tab-t-classical">
+      <p style="font-size:.9rem;color:var(--ink-soft);margin-bottom:1.5rem;">These words remain firmly under specialist register ownership. Despite increased public exposure, regularization pressure is negligible — the classical form is effectively unchallenged.</p>
+      <div class="traj-group">
+        <div class="traj-label"><span class="traj-pill classical">Biology</span><div class="traj-line"></div></div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">bacteria vs. bacteriums</span><span>bacterium — scientific register dominates</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=bacteria,bacteriums&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: bacteria vs bacteriums"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">fungi vs. funguses</span><span>fungus — mycology boom did not change form</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=fungi,funguses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: fungi vs funguses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">larvae vs. larvas</span><span>larva — entomology register holds firm</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=larvae,larvas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: larvae vs larvas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">nuclei vs. nucleuses</span><span>nucleus — phonological + scientific resistance</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=nuclei,nucleuses&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: nuclei vs nucleuses"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+        <div class="ngram-pair">
+          <div class="ngram-item">
+            <div class="ngram-label"><span class="ngram-forms">algae vs. algas</span><span>alga — low-frequency specialist term</span></div>
+            <iframe src="https://books.google.com/ngrams/interactive_chart?content=algae,algas&year_start=1900&year_end=2022&corpus=en-2019&smoothing=3" loading="lazy" title="Ngram: algae vs algas"></iframe>
+            <div class="iframe-caption">Google Books Ngram Viewer · 1900–2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <p class="text-muted fade-in" style="margin-top:1.5rem;">Note: COCA frequency data to be inserted by the team in the final version.</p>
+</div>
 </section>
 
-<!-- 4. RATE AND DIRECTION -->
+<!-- § 04 ANALYSIS -->
 <section class="section" id="analysis">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 04</span>
-      <div class="section-rule"></div>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 04</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Rate and Direction Comparison</h2>
+  <p class="fade-in">Having established long-term usage patterns in the corpus section, this section compares the rate and direction of regularization across our selected word pairs and examines what factors explain the variation.</p>
+  <p class="fade-in">Our analysis suggests that the selected nouns fall into three broad categories based on their regularization trajectory:</p>
+  <div class="category-trio fade-in">
+    <div class="cat-card fast">
+      <h3>Fast Regularizers</h3>
+      <p>Words that have undergone significant semantic or grammatical drift alongside escape from dominant specialist register ownership. Regularization occurred not merely because these words became more widely used, but because their grammatical identity fundamentally changed.</p>
+      <div class="cat-examples"><span class="cat-example">data</span><span class="cat-example">media</span><span class="cat-example">formula</span><span class="cat-example">strata</span></div>
     </div>
-    <h2 class="section-title fade-in">Rate and Direction Comparison</h2>
-
-    <p class="fade-in">Having established long-term usage patterns in the corpus section, this section compares the rate and direction of regularization across our selected word pairs and examines what factors explain the variation.</p>
-    <p class="fade-in">Our analysis suggests that the selected nouns fall into three broad categories based on their regularization trajectory:</p>
-
-    <div class="category-trio fade-in">
-      <div class="cat-card fast">
-        <h3>Fast Regularizers</h3>
-        <p>Words that have undergone significant semantic or grammatical drift alongside escape from dominant specialist register ownership. Regularization occurred not merely because these words became more widely used, but because their grammatical identity fundamentally changed.</p>
-        <div class="cat-examples">
-          <span class="cat-example">data</span>
-          <span class="cat-example">media</span>
-          <span class="cat-example">formula</span>
-        </div>
-      </div>
-      <div class="cat-card contested">
-        <h3>Contested Forms</h3>
-        <p>Words that cross between academic and general registers without undergoing fundamental meaning change. These show genuine competition between classical and regularized forms, with neither decisively winning.</p>
-        <div class="cat-examples">
-          <span class="cat-example">formula</span>
-          <span class="cat-example">syllabus</span>
-          <span class="cat-example">stimulus</span>
-          <span class="cat-example">criterion</span>
-        </div>
-      </div>
-      <div class="cat-card classical">
-        <h3>Classical Retainers</h3>
-        <p>Words that remain firmly under specialist register ownership. These show little meaningful regularization pressure despite increased public exposure, because their primary context remains scientific communication.</p>
-        <div class="cat-examples">
-          <span class="cat-example">fungi</span>
-          <span class="cat-example">larvae</span>
-          <span class="cat-example">nuclei</span>
-          <span class="cat-example">algae</span>
-        </div>
-      </div>
+    <div class="cat-card contested">
+      <h3>Contested Forms</h3>
+      <p>Words that cross between academic and general registers without undergoing fundamental meaning change. These show genuine competition between classical and regularized forms, with neither decisively winning.</p>
+      <div class="cat-examples"><span class="cat-example">criterion</span><span class="cat-example">syllabus</span><span class="cat-example">stimulus</span><span class="cat-example">phenomenon</span><span class="cat-example">cactus</span></div>
     </div>
+    <div class="cat-card classical">
+      <h3>Classical Retainers</h3>
+      <p>Words that remain firmly under specialist register ownership. These show little meaningful regularization pressure despite increased public exposure, because their primary context remains scientific communication.</p>
+      <div class="cat-examples"><span class="cat-example">fungi</span><span class="cat-example">larvae</span><span class="cat-example">nuclei</span><span class="cat-example">algae</span><span class="cat-example">bacteria</span></div>
+    </div>
+  </div>
+  <div class="divider fade-in"></div>
+  <h3 class="section-title-sm fade-in">Contributing Factors</h3>
+  <div class="factor-list fade-in">
+    <div class="factor-item"><div class="factor-icon">🔍</div><div class="factor-text"><strong>Etymological transparency</strong><span>How obviously Latin or Greek a word appears to an average speaker may influence how much resistance speakers feel toward regularizing it.</span></div></div>
+    <div class="factor-item"><div class="factor-icon">🗣</div><div class="factor-text"><strong>Phonological awkwardness</strong><span>The phonological awkwardness of the regularized form — such as "stimuluses" or "nucleuses" — may slow adoption even in general registers.</span></div></div>
+    <div class="factor-item"><div class="factor-icon">📈</div><div class="factor-text"><strong>Frequency threshold effects (Zipf's Law)</strong><span>Words above a certain usage frequency enter everyday speech and face stronger regularization pressure.</span></div></div>
+    <div class="factor-item"><div class="factor-icon">🏛</div><div class="factor-text"><strong>Register ownership</strong><span>Notably, increased cultural visibility — such as the recent popular interest in mycology — has not meaningfully accelerated regularization of "fungi," suggesting that register ownership is a more powerful stabilizing force than frequency of public exposure alone.</span></div></div>
+  </div>
+</div>
+</section>
 
-    <div class="divider fade-in"></div>
-    <h3 class="section-title-sm fade-in">Contributing Factors</h3>
-    <p class="fade-in">Several additional factors likely contribute to variation within these categories:</p>
-
-    <div class="factor-list fade-in">
-      <div class="factor-item">
-        <div class="factor-icon">🔍</div>
-        <div class="factor-text">
-          <strong>Etymological transparency</strong>
-          <span>How obviously Latin or Greek a word appears to an average speaker may influence how much resistance speakers feel toward regularizing it.</span>
-        </div>
-      </div>
-      <div class="factor-item">
-        <div class="factor-icon">🗣</div>
-        <div class="factor-text">
-          <strong>Phonological awkwardness</strong>
-          <span>The phonological awkwardness of the regularized form — such as "stimuluses" — may slow adoption even in general registers.</span>
-        </div>
-      </div>
-      <div class="factor-item">
-        <div class="factor-icon">📈</div>
-        <div class="factor-text">
-          <strong>Frequency threshold effects (Zipf's Law)</strong>
-          <span>Words above a certain usage frequency enter everyday speech and face stronger regularization pressure. These factors merit further investigation beyond the scope of this report.</span>
-        </div>
-      </div>
-      <div class="factor-item">
-        <div class="factor-icon">🏛</div>
-        <div class="factor-text">
-          <strong>Register ownership</strong>
-          <span>Notably, increased cultural visibility — such as the recent popular interest in mycology — has not meaningfully accelerated regularization of "fungi," suggesting that register ownership is a more powerful stabilizing force than frequency of public exposure alone.</span>
-        </div>
+<!-- § 05 REGISTER INFLUENCE VISUAL -->
+<section class="section" id="registers">
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 05</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Register Influence on Linguistic Trends</h2>
+  <p class="fade-in">A key theoretical contribution of this report is the argument that <em>register ownership</em> — not raw frequency — determines the trajectory of plural forms. The interactive diagram below models this relationship: how different registers exert influence on a word's plural form over time, and how that influence shifts as a word migrates across register boundaries. Hover over nodes to explore.</p>
+</div>
+<div class="container-wide">
+  <div class="fade-in" style="border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--navy);margin:1.5rem 0;">
+    <canvas id="registerCanvas" width="1000" height="500" style="width:100%;display:block;cursor:pointer;"></canvas>
+    <div style="padding:.75rem 1.25rem;border-top:1px solid rgba(255,255,255,.1);display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;">
+      <span style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);">Register Influence Diagram · hover nodes to explore · click words to see trajectory</span>
+      <div style="display:flex;gap:1rem;margin-left:auto;">
+        <span style="font-family:var(--mono);font-size:.6rem;color:rgba(139,58,47,.8);">● Fast</span>
+        <span style="font-family:var(--mono);font-size:.6rem;color:rgba(184,134,11,.9);">● Contested</span>
+        <span style="font-family:var(--mono);font-size:.6rem;color:rgba(74,103,65,.9);">● Classical</span>
       </div>
     </div>
   </div>
+</div>
 </section>
 
-<!-- 5. PROJECTIONS -->
+<!-- § 06 PBL REASONING PROGRESS -->
+<section class="section" id="pbl">
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 06</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">PBL Reasoning Progress</h2>
+  <p class="fade-in">The chart below traces the team's analytical journey through the PBL module — from initial framing of the problem to the development of our three-category framework and final projections. Each stage represents a shift in reasoning depth and theoretical clarity.</p>
+  <div class="fade-in" style="border:1px solid var(--rule);border-radius:2px;overflow:hidden;background:var(--card-bg);margin:1.5rem 0;">
+    <canvas id="pblCanvas" width="900" height="380" style="width:100%;display:block;"></canvas>
+    <div style="padding:.75rem 1.25rem;border-top:1px solid var(--rule);font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);">PBL Module 1 · Reasoning Depth over Time · hover for stage details</div>
+  </div>
+</div>
+</section>
+
+<!-- § 07 PROJECTIONS -->
 <section class="section" id="projections">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 05</span>
-      <div class="section-rule"></div>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 07</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">2040 Usage Projections</h2>
+  <p class="fade-in">Based on our corpus analysis and theoretical framework, this section presents data-driven projections for which plural forms are likely to be treated as standard by 2040. These projections are informed by three external forces we identify as primary drivers of change:</p>
+  <div class="force-accordion fade-in">
+    <div class="force-item">
+      <button class="force-toggle" onclick="toggleForce(this)"><h4>🌐 Globalization and English Homogenization</h4><span class="force-arrow">▼</span></button>
+      <div class="force-body"><div class="force-body-inner">Globalization is accelerating contact between regional varieties of English and producing increasing pressure toward a simplified, accessible common standard. This pressure disproportionately favors regularized plural forms, as classical forms carry no communicative advantage outside specialist contexts and present an additional learning burden for international users.</div></div>
     </div>
-    <h2 class="section-title fade-in">2040 Usage Projections</h2>
-
-    <p class="fade-in">Based on our corpus analysis and theoretical framework, this section presents data-driven projections for which plural forms are likely to be treated as standard by 2040. These projections are informed by three external forces we identify as primary drivers of change:</p>
-
-    <div class="force-accordion fade-in">
-      <div class="force-item">
-        <button class="force-toggle" onclick="toggleForce(this)">
-          <h4>🌐 Globalization and English Homogenization</h4>
-          <span class="force-arrow">▼</span>
-        </button>
-        <div class="force-body">
-          <div class="force-body-inner">
-            Globalization is accelerating contact between regional varieties of English and producing increasing pressure toward a simplified, accessible common standard. This pressure disproportionately favors regularized plural forms, as classical forms carry no communicative advantage outside specialist contexts and present an additional learning burden for international users.
-          </div>
-        </div>
-      </div>
-      <div class="force-item">
-        <button class="force-toggle" onclick="toggleForce(this)">
-          <h4>🤖 Technological Change and the Rise of AI</h4>
-          <span class="force-arrow">▼</span>
-        </button>
-        <div class="force-body">
-          <div class="force-body-inner">
-            The effect of AI on plural form standardization is more complex and corpus-dependent. Large language models are trained on existing text corpora, meaning they currently reinforce whichever form is already dominant in their training data. In practice this means AI tools are likely to simultaneously accelerate regularization in general registers — where regularized forms already dominate training data — while preserving classical forms in specialist academic contexts where those forms remain prevalent.
-            <br><br>
-            The net effect of AI on standardization will therefore depend heavily on what registers future training corpora prioritize. We hypothesize that without deliberate intervention in corpus curation and AI training methodology, AI tools will amplify existing frequency gaps rather than resolve them. We further recommend that regulations regarding the labeling and tracking of AI generated text be established, as discussed in the Recommendations section.
-          </div>
-        </div>
-      </div>
-      <div class="force-item">
-        <button class="force-toggle" onclick="toggleForce(this)">
-          <h4>📖 Rising Global Literacy and Non-Native Speaker Content Creation</h4>
-          <span class="force-arrow">▼</span>
-        </button>
-        <div class="force-body">
-          <div class="force-body-inner">
-            Rising global literacy, combined with the proliferation of digital content creation platforms, means that non-native English speakers now constitute the majority of active English content producers worldwide. Research in second language acquisition suggests that non-native speakers are sensitive to existing dominant patterns in the language they are acquiring, tending to reinforce high-frequency forms rather than innovating.
-            <br><br>
-            In the context of plural morphology, this is significant — regularized plural forms already dominate general usage and digital communication registers. This creates a self-reinforcing frequency cycle: as regularized forms become more frequent through non-native speaker usage, they become even more dominant in the data that future speakers are exposed to. This makes any reversal toward classical plural forms in general registers increasingly unlikely.
-            <br><br>
-            <em style="color:var(--ink-muted);font-size:0.85rem;">(cf. Verhoef et al., 2015 — non-native speaker effects on morphological patterns)</em>
-          </div>
-        </div>
-      </div>
+    <div class="force-item">
+      <button class="force-toggle" onclick="toggleForce(this)"><h4>🤖 Technological Change and the Rise of AI</h4><span class="force-arrow">▼</span></button>
+      <div class="force-body"><div class="force-body-inner">The effect of AI on plural form standardization is more complex and corpus-dependent. Large language models are trained on existing text corpora, meaning they currently reinforce whichever form is already dominant in their training data. In practice this means AI tools are likely to simultaneously accelerate regularization in general registers — where regularized forms already dominate — while preserving classical forms in specialist academic contexts where those forms remain prevalent.<br><br>The net effect of AI on standardization will therefore depend heavily on what registers future training corpora prioritize. We hypothesize that without deliberate intervention in corpus curation and AI training methodology, AI tools will amplify existing frequency gaps rather than resolve them.</div></div>
     </div>
-
-    <div class="divider fade-in"></div>
-    <h3 class="section-title-sm fade-in">Projected Outcomes by Category</h3>
-
-    <div class="projection-grid fade-in">
-      <div class="proj-card fast">
-        <div class="proj-header">
-          <h4>Fast Regularizers</h4>
-          <span class="proj-badge">Regularization complete</span>
-        </div>
-        <div class="proj-body">
-          Words including <em>data</em>, <em>media</em>, and <em>formula</em> are projected to complete their regularization trajectory across all registers by 2040. The classical singular forms <em>datum</em> and <em>stratum</em> are projected to become effectively obsolete outside of narrow specialist academic usage. Dictionary entries for these words are expected to list the regularized or semantically dominant form as primary, with the classical form marked as archaic or specialist.
-        </div>
-      </div>
-      <div class="proj-card contested">
-        <div class="proj-header">
-          <h4>Contested Forms</h4>
-          <span class="proj-badge">Register divergence</span>
-        </div>
-        <div class="proj-body">
-          Words including <em>syllabus</em>, <em>stimulus</em>, <em>criterion</em>, and <em>phenomenon</em> are projected to remain genuinely contested through 2040, but with diverging trajectories across registers. In academic publishing, classical forms are projected to retain dominance. In general public usage and digital communication, regularized forms are projected to become the de facto standard. Dictionary entries are projected to list both forms as acceptable, with explicit register guidance.
-        </div>
-      </div>
-      <div class="proj-card classical">
-        <div class="proj-header">
-          <h4>Classical Retainers</h4>
-          <span class="proj-badge">No meaningful change</span>
-        </div>
-        <div class="proj-body">
-          Words including <em>fungi</em>, <em>larvae</em>, <em>nuclei</em>, and <em>algae</em> are projected to retain their classical forms as dominant across all registers through 2040. Specialist register ownership remains strong, public exposure has not produced meaningful regularization pressure historically, and the phonological awkwardness of some regularized alternatives such as "nucleuses" provides additional resistance.
-        </div>
-      </div>
+    <div class="force-item">
+      <button class="force-toggle" onclick="toggleForce(this)"><h4>📖 Rising Global Literacy and Non-Native Speaker Content Creation</h4><span class="force-arrow">▼</span></button>
+      <div class="force-body"><div class="force-body-inner">Rising global literacy, combined with the proliferation of digital content creation platforms, means that non-native English speakers now constitute the majority of active English content producers worldwide. Research in second language acquisition suggests that non-native speakers are sensitive to existing dominant patterns in the language they are acquiring, tending to reinforce high-frequency forms rather than innovating.<br><br>This creates a self-reinforcing frequency cycle: as regularized forms become more frequent through non-native speaker usage, they become even more dominant in the data that future speakers are exposed to. This makes any reversal toward classical plural forms in general registers increasingly unlikely.<br><br><em style="color:var(--ink-muted);font-size:.85rem;">(cf. Verhoef et al., 2015 — non-native speaker effects on morphological patterns)</em></div></div>
     </div>
   </div>
+  <div class="divider fade-in"></div>
+  <h3 class="section-title-sm fade-in">Projected Outcomes by Category</h3>
+  <div class="projection-grid fade-in">
+    <div class="proj-card fast">
+      <div class="proj-header"><h4>Fast Regularizers</h4><span class="proj-badge">Regularization complete</span></div>
+      <div class="proj-body">Words including <em>data</em>, <em>media</em>, and <em>formula</em> are projected to complete their regularization trajectory across all registers by 2040. The classical singular forms <em>datum</em> and <em>stratum</em> are projected to become effectively obsolete outside of narrow specialist academic usage. Dictionary entries are expected to list the regularized form as primary, with the classical form marked as archaic or specialist.</div>
+    </div>
+    <div class="proj-card contested">
+      <div class="proj-header"><h4>Contested Forms</h4><span class="proj-badge">Register divergence</span></div>
+      <div class="proj-body">Words including <em>syllabus</em>, <em>stimulus</em>, <em>criterion</em>, and <em>phenomenon</em> are projected to remain genuinely contested through 2040, with diverging trajectories across registers. Classical forms are projected to retain dominance in academic publishing; regularized forms to become de facto standard in digital communication. Dictionary entries are projected to list both forms as acceptable, with explicit register guidance.</div>
+    </div>
+    <div class="proj-card classical">
+      <div class="proj-header"><h4>Classical Retainers</h4><span class="proj-badge">No meaningful change</span></div>
+      <div class="proj-body">Words including <em>fungi</em>, <em>larvae</em>, <em>nuclei</em>, and <em>algae</em> are projected to retain their classical forms as dominant across all registers through 2040. Specialist register ownership remains strong, public exposure has not produced meaningful regularization pressure historically, and the phonological awkwardness of some regularized alternatives provides additional resistance.</div>
+    </div>
+  </div>
+</div>
 </section>
 
-<!-- 6. RECOMMENDATIONS -->
+<!-- § 08 RECOMMENDATIONS -->
 <section class="section" id="recommendations">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 06</span>
-      <div class="section-rule"></div>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 08</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Recommendations for Dictionaries and Education Policy</h2>
+  <p class="fade-in">This section presents practical recommendations for two primary audiences: lexicographers responsible for dictionary entries and labeling, and curriculum designers responsible for language education policy. We also raise an unresolved methodological question regarding the role of AI generated text in future corpus linguistics practice.</p>
+  <div class="rec-grid fade-in">
+    <div class="rec-column">
+      <h3>For Lexicographers</h3>
+      <div class="rec-row"><span class="rec-tag fast">Fast</span><div class="rec-text">For fast regularizers such as <em>data</em> and <em>media</em>, list the regularized or semantically drifted form as primary, with the classical form marked as specialist or archaic where appropriate. Continuing to present these words as straightforwardly irregular plurals misrepresents current usage reality.</div></div>
+      <div class="rec-row"><span class="rec-tag contested">Contested</span><div class="rec-text">For contested forms such as <em>formula</em>, <em>syllabus</em>, <em>stimulus</em>, and <em>phenomenon</em>, list both forms as acceptable with explicit register guidance. Presenting only one form as correct is both descriptively inaccurate and practically unhelpful for users.</div></div>
+      <div class="rec-row"><span class="rec-tag classical">Classical</span><div class="rec-text">For classical retainers such as <em>fungi</em>, <em>larvae</em>, and <em>nuclei</em>, maintain classical forms as primary, with regularized alternatives noted as informal or non-standard where they exist.</div></div>
     </div>
-    <h2 class="section-title fade-in">Recommendations for Dictionaries and Education Policy</h2>
-
-    <p class="fade-in">This section presents practical recommendations for two primary audiences: lexicographers responsible for dictionary entries and labeling, and curriculum designers responsible for language education policy. We also raise an unresolved methodological question regarding the role of AI generated text in future corpus linguistics practice.</p>
-
-    <div class="rec-grid fade-in">
-      <div class="rec-column">
-        <h3>For Lexicographers</h3>
-        <div class="rec-row">
-          <span class="rec-tag fast">Fast</span>
-          <div class="rec-text">For fast regularizers such as <em>data</em> and <em>media</em>, list the regularized or semantically drifted form as primary, with the classical form marked as specialist or archaic where appropriate. Continuing to present these words as straightforwardly irregular plurals misrepresents current usage reality.</div>
-        </div>
-        <div class="rec-row">
-          <span class="rec-tag contested">Contested</span>
-          <div class="rec-text">For contested forms such as <em>formula</em>, <em>syllabus</em>, <em>stimulus</em>, and <em>phenomenon</em>, list both forms as acceptable with explicit register guidance. Presenting only one form as correct is both descriptively inaccurate and practically unhelpful for users.</div>
-        </div>
-        <div class="rec-row">
-          <span class="rec-tag classical">Classical</span>
-          <div class="rec-text">For classical retainers such as <em>fungi</em>, <em>larvae</em>, and <em>nuclei</em>, maintain classical forms as primary, with regularized alternatives noted as informal or non-standard where they exist.</div>
-        </div>
-      </div>
-      <div class="rec-column">
-        <h3>For Curriculum Designers</h3>
-        <div class="rec-row">
-          <span class="rec-tag fast">Fast</span>
-          <div class="rec-text">Teach the dominant contemporary form as standard and present the classical form as historical or specialist context only. Teaching "datum" as the standard singular of "data" in general English curricula is no longer warranted given current usage patterns.</div>
-        </div>
-        <div class="rec-row">
-          <span class="rec-tag contested">Contested</span>
-          <div class="rec-text">Present both classical and regularized forms explicitly, with clear register guidance. Students should understand that "phenomena" is expected in academic writing while "phenomenons" may appear in general contexts — treating one form as simply correct does students a disservice.</div>
-        </div>
-        <div class="rec-row">
-          <span class="rec-tag classical">Classical</span>
-          <div class="rec-text">Classical forms should be taught as standard, with regularized alternatives acknowledged as informal where they exist. Curricula should explicitly address register-dependent variation as digital communication becomes an increasingly dominant register.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ai-callout fade-in">
-      <h4>Unresolved Question: AI Generated Text in Corpus Methodology</h4>
-      <p>We raise the question of whether major corpus based dictionaries should begin disclosing the proportion of AI generated text present in their source corpora. As AI generated content enters public discourse at scale, corpus frequency data becomes increasingly difficult to interpret without knowing what proportion reflects natural human language use versus AI output patterns.</p>
-      <br>
-      <p>We recommend that lexicographic institutions develop clear standards for identifying and labeling AI generated text in reference corpora. Furthermore, we recommend maintaining separate AI generated and human generated corpora to allow researchers to track divergence between natural language change and AI driven pattern reinforcement over time.</p>
-      <br>
-      <p><em>Without such measures, future dictionary entries risk reflecting AI language patterns rather than genuine shifts in human usage — raising the deeper question: if AI generated text dominates future corpora, are we measuring natural language change, or are we measuring the linguistic habits of machines trained on past human language?</em></p>
+    <div class="rec-column">
+      <h3>For Curriculum Designers</h3>
+      <div class="rec-row"><span class="rec-tag fast">Fast</span><div class="rec-text">Teach the dominant contemporary form as standard and present the classical form as historical or specialist context only. Teaching "datum" as the standard singular of "data" in general English curricula is no longer warranted given current usage patterns.</div></div>
+      <div class="rec-row"><span class="rec-tag contested">Contested</span><div class="rec-text">Present both classical and regularized forms explicitly, with clear register guidance. Students should understand that "phenomena" is expected in academic writing while "phenomenons" may appear in general contexts — treating one form as simply correct does students a disservice.</div></div>
+      <div class="rec-row"><span class="rec-tag classical">Classical</span><div class="rec-text">Classical forms should be taught as standard, with regularized alternatives acknowledged as informal where they exist. Curricula should explicitly address register-dependent variation as digital communication becomes an increasingly dominant register.</div></div>
     </div>
   </div>
+  <div class="ai-callout fade-in">
+    <h4>Unresolved Question: AI Generated Text in Corpus Methodology</h4>
+    <p>We raise the question of whether major corpus based dictionaries should begin disclosing the proportion of AI generated text present in their source corpora. As AI generated content enters public discourse at scale, corpus frequency data becomes increasingly difficult to interpret without knowing what proportion reflects natural human language use versus AI output patterns.</p><br>
+    <p>We recommend that lexicographic institutions develop clear standards for identifying and labeling AI generated text in reference corpora. Furthermore, we recommend maintaining separate AI generated and human generated corpora to allow researchers to track divergence between natural language change and AI driven pattern reinforcement over time.</p><br>
+    <p><em>Without such measures, future dictionary entries risk reflecting AI language patterns rather than genuine shifts in human usage — raising the deeper question: if AI generated text dominates future corpora, are we measuring natural language change, or are we measuring the linguistic habits of machines trained on past human language?</em></p>
+  </div>
+</div>
 </section>
 
-<!-- 7. CONCLUSION -->
+<!-- § 09 CONCLUSION -->
 <section class="section" id="conclusion">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 07</span>
-      <div class="section-rule"></div>
-    </div>
-    <h2 class="section-title fade-in">Conclusion</h2>
-
-    <div class="fade-in">
-      <p>This report has examined the pluralization of Greek and Latin origin nouns in English, analyzing long-term usage patterns, rates of regularization, and the factors driving variation across words, registers, and disciplines. Our analysis suggests that the trajectory of any given noun is not random but is shaped by identifiable forces — most significantly, whether the word has undergone semantic or grammatical drift, and whether it has escaped dominant ownership by a single specialist register.</p>
-      <p>We identified three broad categories of words: fast regularizers, whose classical forms are effectively receding across all registers; contested forms, where classical and regularized plurals coexist in register-dependent competition; and classical retainers, where specialist register ownership continues to preserve classical forms despite increased public exposure. These categories, while not rigid, provide a practical framework for predicting future trajectories.</p>
-    </div>
-
-    <div class="conclusion-pull fade-in">
-      "Looking toward 2040, external forces — globalization, the rise of AI as a writing tool, and the growing dominance of non-native English speakers as content creators — will collectively accelerate regularization in general and digital registers while classical forms retain their position in specialist academic publishing."
-    </div>
-
-    <div class="fade-in">
-      <p>Crucially, the self-reinforcing nature of frequency cycles means that words which have already begun regularizing are unlikely to reverse course, and the frequency gap between classical and regularized forms is projected to widen significantly in general usage.</p>
-      <p>Our recommendations to lexicographers and curriculum designers reflect this complexity — resisting the temptation to declare one form correct across all contexts, and instead embracing register-sensitive guidance that accurately reflects how English is actually used. We additionally raise the unresolved question of how AI generated text should be handled in future corpus methodology, as this issue has direct implications for the reliability of frequency data on which all such analyses depend.</p>
-    </div>
-
-    <div class="conclusion-pull fade-in" style="font-size:1.35rem; margin-top:3rem;">
-      "Ultimately, the story of Greek and Latin plurals in English is a story about who owns a word. When a word belongs primarily to specialists, its classical form endures. When it escapes into the broader language — carried by technology, culture, or sheer frequency — regularization follows."
-    </div>
-
-    <p class="fade-in" style="margin-top:1.5rem;">Understanding this mechanism is essential for anyone responsible for documenting, teaching, or standardizing the English language in the decades ahead.</p>
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 09</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">Conclusion</h2>
+  <div class="fade-in">
+    <p>This report has examined the pluralization of Greek and Latin origin nouns in English, analyzing long-term usage patterns, rates of regularization, and the factors driving variation across words, registers, and disciplines. Our analysis suggests that the trajectory of any given noun is not random but is shaped by identifiable forces — most significantly, whether the word has undergone semantic or grammatical drift, and whether it has escaped dominant ownership by a single specialist register.</p>
+    <p>We identified three broad categories of words: fast regularizers, whose classical forms are effectively receding across all registers; contested forms, where classical and regularized plurals coexist in register-dependent competition; and classical retainers, where specialist register ownership continues to preserve classical forms despite increased public exposure. These categories, while not rigid, provide a practical framework for predicting future trajectories.</p>
   </div>
+  <div class="conclusion-pull fade-in">"Looking toward 2040, external forces — globalization, the rise of AI as a writing tool, and the growing dominance of non-native English speakers as content creators — will collectively accelerate regularization in general and digital registers while classical forms retain their position in specialist academic publishing."</div>
+  <div class="fade-in">
+    <p>Crucially, the self-reinforcing nature of frequency cycles means that words which have already begun regularizing are unlikely to reverse course, and the frequency gap between classical and regularized forms is projected to widen significantly in general usage.</p>
+    <p>Our recommendations to lexicographers and curriculum designers reflect this complexity — resisting the temptation to declare one form correct across all contexts, and instead embracing register-sensitive guidance that accurately reflects how English is actually used.</p>
+  </div>
+  <div class="conclusion-pull fade-in" style="font-size:1.35rem;margin-top:3rem;">"Ultimately, the story of Greek and Latin plurals in English is a story about who owns a word. When a word belongs primarily to specialists, its classical form endures. When it escapes into the broader language — carried by technology, culture, or sheer frequency — regularization follows."</div>
+  <p class="fade-in" style="margin-top:1.5rem;">Understanding this mechanism is essential for anyone responsible for documenting, teaching, or standardizing the English language in the decades ahead.</p>
+</div>
 </section>
 
-<!-- 8. REFERENCES -->
+<!-- § 10 REFERENCES -->
 <section class="section" id="references">
-  <div class="container">
-    <div class="section-header fade-in">
-      <span class="section-number">§ 08</span>
-      <div class="section-rule"></div>
-    </div>
-    <h2 class="section-title fade-in">References</h2>
-
-    <div class="ref-group fade-in">
-      <h4>Corpora and Tools</h4>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>COCA — Corpus of Contemporary American English (1990–2022)<br>
-          <a href="https://www.english-corpora.org/coca/" target="_blank" rel="noopener">https://www.english-corpora.org/coca/</a></div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>COHA — Corpus of Historical American English<br>
-          <a href="https://www.english-corpora.org/coha/" target="_blank" rel="noopener">https://www.english-corpora.org/coha/</a></div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>Google Books Ngram Viewer (1900–2022)<br>
-          <a href="https://books.google.com/ngrams" target="_blank" rel="noopener">https://books.google.com/ngrams</a></div>
-      </div>
-    </div>
-
-    <div class="ref-group fade-in">
-      <h4>Academic Sources</h4>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>Gregersen, E. (2022). <em>History of English regularization.</em> Cambridge University Press.<br>
-          <a href="https://www.cambridge.org/core" target="_blank" rel="noopener">https://www.cambridge.org/core</a></div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>Verhoef, T. et al. (2015). Non-native speaker effects on morphological patterns. <em>Journal of Memory and Language.</em><br>
-          <a href="https://www.sciencedirect.com/science/article/pii/S0749596X15000790" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0749596X15000790</a></div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>English verb regularization in books and tweets. <em>Lingua / ScienceDirect.</em><br>
-          <a href="https://www.sciencedirect.com/science/article/pii/S0024384113002659" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0024384113002659</a></div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>Case report on Latin plural retention in medical writing. <em>Journal of Medical Case Reports.</em><br>
-          <a href="https://link.springer.com/article/10.1186/s13256-018-1562-x" target="_blank" rel="noopener">https://link.springer.com/article/10.1186/s13256-018-1562-x</a></div>
-      </div>
-    </div>
-
-    <div class="ref-group fade-in">
-      <h4>Style Guides and Reference Works</h4>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div>Huddleston, R. & Pullum, G. (2002). <em>The Cambridge Grammar of the English Language.</em> Cambridge University Press.</div>
-      </div>
-      <div class="ref-item">
-        <div class="ref-dot"></div>
-        <div><em>Additional references to be added by team.</em></div>
-      </div>
-    </div>
-
+<div class="container">
+  <div class="section-header fade-in"><span class="section-number">§ 10</span><div class="section-rule"></div></div>
+  <h2 class="section-title fade-in">References</h2>
+  <div class="ref-group fade-in">
+    <h4>Corpora and Tools</h4>
+    <div class="ref-item"><div class="ref-dot"></div><div>COCA — Corpus of Contemporary American English (1990–2022)<br><a href="https://www.english-corpora.org/coca/" target="_blank" rel="noopener">https://www.english-corpora.org/coca/</a></div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div>COHA — Corpus of Historical American English<br><a href="https://www.english-corpora.org/coha/" target="_blank" rel="noopener">https://www.english-corpora.org/coha/</a></div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div>Google Books Ngram Viewer (1900–2022)<br><a href="https://books.google.com/ngrams" target="_blank" rel="noopener">https://books.google.com/ngrams</a></div></div>
   </div>
+  <div class="ref-group fade-in">
+    <h4>Academic Sources</h4>
+    <div class="ref-item"><div class="ref-dot"></div><div>Gregersen, E. (2022). <em>History of English regularization.</em> Cambridge University Press.<br><a href="https://www.cambridge.org/core" target="_blank" rel="noopener">https://www.cambridge.org/core</a></div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div>Verhoef, T. et al. (2015). Non-native speaker effects on morphological patterns. <em>Journal of Memory and Language.</em><br><a href="https://www.sciencedirect.com/science/article/pii/S0749596X15000790" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0749596X15000790</a></div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div>English verb regularization in books and tweets. <em>Lingua / ScienceDirect.</em><br><a href="https://www.sciencedirect.com/science/article/pii/S0024384113002659" target="_blank" rel="noopener">https://www.sciencedirect.com/science/article/pii/S0024384113002659</a></div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div>Case report on Latin plural retention in medical writing. <em>Journal of Medical Case Reports.</em><br><a href="https://link.springer.com/article/10.1186/s13256-018-1562-x" target="_blank" rel="noopener">https://link.springer.com/article/10.1186/s13256-018-1562-x</a></div></div>
+  </div>
+  <div class="ref-group fade-in">
+    <h4>Style Guides and Reference Works</h4>
+    <div class="ref-item"><div class="ref-dot"></div><div>Huddleston, R. &amp; Pullum, G. (2002). <em>The Cambridge Grammar of the English Language.</em> Cambridge University Press.</div></div>
+    <div class="ref-item"><div class="ref-dot"></div><div><em>Additional references to be added by team.</em></div></div>
+  </div>
+</div>
 </section>
 
 </main>
 
 <footer>
   <div>PBL Module 1 Report &nbsp;·&nbsp; 이종현교수님팬클럽</div>
-  <div style="margin-top:0.4rem;">이형빈, 서동규, 김현아, Zaya &nbsp;·&nbsp; Institute of Contemporary English &nbsp;·&nbsp; 2026</div>
-  <div style="margin-top:0.8rem; opacity:0.4; font-size:0.65rem;">Predicting the Future of Latin and Greek Plurals</div>
+  <div style="margin-top:.4rem;">이형빈, 서동규, 김현아, Zaya &nbsp;·&nbsp; Institute of Contemporary English &nbsp;·&nbsp; 2026</div>
+  <div style="margin-top:.8rem;opacity:.4;font-size:.65rem;">Predicting the Future of Latin and Greek Plurals</div>
 </footer>
 
 <script>
-// ─── NAV TOGGLE (MOBILE) ───
+// ─── NAV ───
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-
-// ─── ACTIVE NAV ON SCROLL ───
-const sections = document.querySelectorAll('section[id], main > section[id]');
+const sections = document.querySelectorAll('section[id]');
 const links = document.querySelectorAll('.nav-links a');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      links.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
-  });
-}, { rootMargin: '-40% 0px -55% 0px' });
-sections.forEach(s => observer.observe(s));
+const navObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ links.forEach(l=>l.classList.remove('active')); const a=document.querySelector(`.nav-links a[href="#${e.target.id}"]`); if(a)a.classList.add('active'); }});
+}, {rootMargin:'-40% 0px -55% 0px'});
+sections.forEach(s => navObs.observe(s));
 
-// ─── FADE-IN ON SCROLL ───
+// ─── FADE IN ───
 const fadeEls = document.querySelectorAll('.fade-in');
-const fadeObserver = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      e.target.style.transitionDelay = `${(i % 4) * 0.07}s`;
-      e.target.classList.add('visible');
-      fadeObserver.unobserve(e.target);
-    }
-  });
-}, { rootMargin: '0px 0px -60px 0px' });
-fadeEls.forEach(el => fadeObserver.observe(el));
+const fadeObs = new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){e.target.style.transitionDelay=`${(i%4)*.07}s`;e.target.classList.add('visible');fadeObs.unobserve(e.target);}});},{rootMargin:'0px 0px -60px 0px'});
+fadeEls.forEach(el=>fadeObs.observe(el));
 
 // ─── TABS ───
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tabId = 'tab-' + btn.dataset.tab;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const id='tab-'+btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
     btn.classList.add('active');
-    document.getElementById(tabId).classList.add('active');
+    document.getElementById(id).classList.add('active');
   });
 });
 
-// ─── FORCE ACCORDION ───
-function toggleForce(btn) {
-  const item = btn.closest('.force-item');
-  const body = item.querySelector('.force-body');
-  const inner = item.querySelector('.force-body-inner');
-  const isOpen = item.classList.contains('open');
-  // close all
-  document.querySelectorAll('.force-item').forEach(i => {
-    i.classList.remove('open');
-    i.querySelector('.force-body').style.maxHeight = '0';
-  });
-  if (!isOpen) {
-    item.classList.add('open');
-    body.style.maxHeight = inner.scrollHeight + 'px';
-  }
+// ─── ACCORDION ───
+function toggleForce(btn){
+  const item=btn.closest('.force-item');
+  const body=item.querySelector('.force-body');
+  const inner=item.querySelector('.force-body-inner');
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.force-item').forEach(i=>{i.classList.remove('open');i.querySelector('.force-body').style.maxHeight='0';});
+  if(!isOpen){item.classList.add('open');body.style.maxHeight=inner.scrollHeight+'px';}
 }
+
+// ─── REGISTER DIAGRAM ───
+(function(){
+  const canvas = document.getElementById('registerCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = W * DPR; canvas.height = H * DPR;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(DPR, DPR);
+
+  const registers = [
+    {id:'specialist', label:'Specialist\nRegister', x:140, y:250, r:65, color:'rgba(74,103,65,.85)', glow:'rgba(74,200,100,.3)'},
+    {id:'academic',   label:'Academic\nPublishing', x:380, y:160, r:55, color:'rgba(45,66,112,.85)', glow:'rgba(100,140,255,.3)'},
+    {id:'general',    label:'General\nUsage',       x:600, y:250, r:60, color:'rgba(130,90,20,.85)', glow:'rgba(212,165,32,.3)'},
+    {id:'digital',    label:'Digital &\nSocial',    x:830, y:250, r:55, color:'rgba(100,30,30,.7)',   glow:'rgba(200,60,60,.3)'},
+  ];
+
+  const words = [
+    {label:'fungi / larvae', cat:'classical', cx:200, cy:310, trail:[{x:160,y:250,s:.9},{x:190,y:280,s:.8},{x:200,y:310,s:.7}]},
+    {label:'bacteria',       cat:'classical', cx:140, cy:180, trail:[{x:140,y:250,s:.9},{x:140,y:200,s:.8},{x:140,y:180,s:.7}]},
+    {label:'phenomenon',     cat:'contested', cx:440, cy:220, trail:[{x:380,y:160,s:.9},{x:420,y:200,s:.8},{x:440,y:220,s:.7}]},
+    {label:'formula',        cat:'fast',      cx:720, cy:190, trail:[{x:380,y:160,s:.9},{x:550,y:180,s:.85},{x:720,y:190,s:.8}]},
+    {label:'data / media',   cat:'fast',      cx:870, cy:190, trail:[{x:400,y:160,s:.9},{x:600,y:180,s:.85},{x:760,y:200,s:.8},{x:870,y:190,s:.7}]},
+    {label:'criterion',      cat:'contested', cx:500, cy:280, trail:[{x:380,y:160,s:.9},{x:460,y:240,s:.85},{x:500,y:280,s:.8}]},
+    {label:'stimulus',       cat:'contested', cx:390, cy:310, trail:[{x:380,y:160,s:.9},{x:385,y:250,s:.85},{x:390,y:310,s:.8}]},
+  ];
+
+  const catColors = {fast:'#c0533e',contested:'#c49a1a',classical:'#5a8a50'};
+  let hovWord = null;
+  let t = 0;
+
+  function drawArrow(x1,y1,x2,y2,color){
+    ctx.save();
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.globalAlpha=.5;
+    ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+    ctx.setLineDash([]);ctx.globalAlpha=1;ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // bg
+    ctx.fillStyle='#1c2b4a';ctx.fillRect(0,0,W,H);
+    // grid lines
+    ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=1;
+    for(let x=0;x<W;x+=60){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=60){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+    // flow arrows between registers
+    const pairs=[[0,1],[1,2],[2,3]];
+    pairs.forEach(([a,b])=>{
+      const ra=registers[a],rb=registers[b];
+      drawArrow(ra.x+ra.r,ra.y,rb.x-rb.r,rb.y,'rgba(212,165,32,.4)');
+    });
+
+    // register circles
+    registers.forEach(reg=>{
+      const pulse = 1 + Math.sin(t*.03)*0.04;
+      // glow
+      const g=ctx.createRadialGradient(reg.x,reg.y,reg.r*.5,reg.x,reg.y,reg.r*1.6*pulse);
+      g.addColorStop(0,reg.glow);g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(reg.x,reg.y,reg.r*1.6*pulse,0,Math.PI*2);ctx.fill();
+      // circle
+      ctx.fillStyle=reg.color;ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.arc(reg.x,reg.y,reg.r,0,Math.PI*2);ctx.fill();ctx.stroke();
+      // label
+      ctx.fillStyle='rgba(255,255,255,.9)';ctx.font=`600 12px 'DM Mono', monospace`;ctx.textAlign='center';ctx.textBaseline='middle';
+      const lines=reg.label.split('\n');
+      lines.forEach((ln,i)=>ctx.fillText(ln,reg.x,reg.y+(i-.5*(lines.length-1))*15));
+    });
+
+    // word nodes
+    words.forEach(w=>{
+      const isHov=(hovWord===w);
+      const col=catColors[w.cat];
+      // trail
+      if(isHov){
+        w.trail.forEach((pt,i)=>{
+          ctx.globalAlpha=.15+i*.12;
+          ctx.fillStyle=col;ctx.beginPath();ctx.arc(pt.x,pt.y,8*pt.s,0,Math.PI*2);ctx.fill();
+          if(i<w.trail.length-1){
+            ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pt.x,pt.y);ctx.lineTo(w.trail[i+1].x,w.trail[i+1].y);ctx.stroke();
+          }
+        });
+        ctx.globalAlpha=1;
+      }
+      // node
+      const nr=isHov?13:9;
+      ctx.fillStyle=col;ctx.strokeStyle='rgba(255,255,255,.7)';ctx.lineWidth=isHov?2:1;
+      ctx.beginPath();ctx.arc(w.cx,w.cy,nr,0,Math.PI*2);ctx.fill();ctx.stroke();
+      // label
+      const lx=w.cx,ly=w.cy-(nr+10);
+      ctx.font=`${isHov?'600 11px':'400 9.5px'} 'DM Mono', monospace`;ctx.textAlign='center';ctx.textBaseline='bottom';
+      ctx.fillStyle='rgba(0,0,0,.5)';ctx.fillText(w.label,lx+1,ly+1);
+      ctx.fillStyle=isHov?'#fff':'rgba(255,255,255,.8)';ctx.fillText(w.label,lx,ly);
+    });
+
+    t++;
+    requestAnimationFrame(draw);
+  }
+
+  canvas.addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(W/rect.width);
+    const my=(e.clientY-rect.top)*(H/rect.height);
+    hovWord=null;
+    words.forEach(w=>{if(Math.hypot(w.cx-mx,w.cy-my)<18)hovWord=w;});
+    canvas.style.cursor=hovWord?'pointer':'default';
+  });
+  canvas.addEventListener('mouseleave',()=>{hovWord=null;});
+
+  draw();
+})();
+
+// ─── PBL PROGRESS CHART ───
+(function(){
+  const canvas = document.getElementById('pblCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const DPR = window.devicePixelRatio || 1;
+  canvas.width = W*DPR; canvas.height = H*DPR;
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  ctx.scale(DPR,DPR);
+
+  const PAD = {top:50,right:50,bottom:90,left:70};
+  const CW = W - PAD.left - PAD.right;
+  const CH = H - PAD.top - PAD.bottom;
+
+  const stages = [
+    {label:'Problem\nFraming',      week:'Wk 1',  depth:22, note:'Initial question: why do some words regularize?', color:'#5a8a50'},
+    {label:'Corpus\nExploration',   week:'Wk 2',  depth:42, note:'Google Ngram and COCA data collection begins', color:'#5a8a50'},
+    {label:'Pattern\nRecognition',  week:'Wk 3',  depth:60, note:'Three-way category distinction first observed', color:'#c49a1a'},
+    {label:'Theory\nBuilding',      week:'Wk 4',  depth:74, note:'Register ownership hypothesis formulated', color:'#c49a1a'},
+    {label:'Counter-\nevidence',    week:'Wk 5',  depth:68, note:'Cactus/cacti complicates early framework', color:'#c49a1a'},
+    {label:'Framework\nRevision',   week:'Wk 6',  depth:80, note:'Fast / Contested / Classical model solidified', color:'#c0533e'},
+    {label:'External\nForces',      week:'Wk 7',  depth:88, note:'Globalization, AI, non-native speakers added', color:'#c0533e'},
+    {label:'Policy\nRecommend.',    week:'Wk 8',  depth:93, note:'Lexicographic and curriculum guidance drafted', color:'#c0533e'},
+    {label:'2040\nProjections',     week:'Wk 9',  depth:97, note:'Final data-driven projections completed', color:'#c0533e'},
+  ];
+
+  let hovStage = null;
+
+  const xs = stages.map((_,i) => PAD.left + (i/(stages.length-1))*CW);
+  const ys = stages.map(s => PAD.top + CH*(1 - s.depth/100));
+
+  function drawChart(animated_progress){
+    ctx.clearRect(0,0,W,H);
+    // bg
+    ctx.fillStyle='#faf7f2';ctx.fillRect(0,0,W,H);
+
+    // grid
+    [0,25,50,75,100].forEach(v=>{
+      const y=PAD.top+CH*(1-v/100);
+      ctx.strokeStyle='rgba(200,187,168,.5)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+      ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(PAD.left+CW,y);ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle='#7a6e5f';ctx.font='10px "DM Mono", monospace';ctx.textAlign='right';ctx.textBaseline='middle';
+      ctx.fillText(v+'%',PAD.left-8,y);
+    });
+
+    // y-axis label
+    ctx.save();ctx.translate(18,PAD.top+CH/2);ctx.rotate(-Math.PI/2);
+    ctx.fillStyle='#7a6e5f';ctx.font='10px "DM Mono",monospace';ctx.textAlign='center';
+    ctx.fillText('Reasoning Depth',0,0);ctx.restore();
+
+    // area fill
+    const nPts = Math.max(2, Math.round(animated_progress * stages.length));
+    const pts = xs.slice(0,nPts).map((x,i)=>({x,y:ys[i]}));
+    if(pts.length>=2){
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, PAD.top+CH);
+      pts.forEach(p=>ctx.lineTo(p.x,p.y));
+      ctx.lineTo(pts[pts.length-1].x, PAD.top+CH);
+      ctx.closePath();
+      const grad=ctx.createLinearGradient(PAD.left,0,PAD.left+CW,0);
+      grad.addColorStop(0,'rgba(74,103,65,.12)');grad.addColorStop(.5,'rgba(184,134,11,.12)');grad.addColorStop(1,'rgba(139,58,47,.12)');
+      ctx.fillStyle=grad;ctx.fill();
+    }
+
+    // line
+    if(pts.length>=2){
+      ctx.beginPath();ctx.moveTo(pts[0].x,pts[0].y);
+      for(let i=1;i<pts.length;i++){
+        const mx=(pts[i-1].x+pts[i].x)/2;
+        ctx.bezierCurveTo(mx,pts[i-1].y,mx,pts[i].y,pts[i].x,pts[i].y);
+      }
+      const lg=ctx.createLinearGradient(PAD.left,0,PAD.left+CW,0);
+      lg.addColorStop(0,'#5a8a50');lg.addColorStop(.45,'#c49a1a');lg.addColorStop(1,'#c0533e');
+      ctx.strokeStyle=lg;ctx.lineWidth=2.5;ctx.stroke();
+    }
+
+    // points
+    stages.forEach((s,i)=>{
+      if(i>=nPts) return;
+      const x=xs[i],y=ys[i];
+      const isHov=(hovStage===i);
+      ctx.fillStyle=s.color;ctx.strokeStyle='#fff';ctx.lineWidth=isHov?2.5:1.5;
+      ctx.beginPath();ctx.arc(x,y,isHov?8:5,0,Math.PI*2);ctx.fill();ctx.stroke();
+
+      // x labels
+      const ls=s.label.split('\n');
+      ctx.fillStyle='#3d3528';ctx.font=`${isHov?'600 9.5px':'9px'} "DM Mono",monospace`;ctx.textAlign='center';ctx.textBaseline='top';
+      ls.forEach((ln,li)=>ctx.fillText(ln,x,PAD.top+CH+12+li*12));
+      ctx.fillStyle='#7a6e5f';ctx.font='8px "DM Mono",monospace';ctx.textBaseline='top';
+      ctx.fillText(s.week,x,PAD.top+CH+38);
+
+      // tooltip
+      if(isHov){
+        const tw=Math.max(180, s.note.length*5.5+24);
+        const tx=Math.min(Math.max(x-tw/2, PAD.left), PAD.left+CW-tw);
+        const ty=Math.max(PAD.top+4, y-54);
+        ctx.fillStyle='rgba(28,43,74,.95)';
+        ctx.beginPath();ctx.roundRect(tx,ty,tw,40,3);ctx.fill();
+        ctx.fillStyle='rgba(212,165,32,.9)';ctx.font='7px "DM Mono",monospace';ctx.textAlign='left';ctx.textBaseline='top';
+        ctx.fillText(s.week.toUpperCase(),tx+10,ty+8);
+        ctx.fillStyle='rgba(255,255,255,.85)';ctx.font='8.5px "DM Mono",monospace';
+        ctx.fillText(s.note,tx+10,ty+22);
+      }
+    });
+
+    // depth annotation
+    ctx.fillStyle='#b8860b';ctx.font='bold 9px "DM Mono",monospace';ctx.textAlign='left';ctx.textBaseline='top';
+    ctx.fillText('REASONING DEPTH OVER MODULE',PAD.left+4,10);
+  }
+
+  let animProg=0;
+  let started=false;
+  function animate(){
+    if(animProg<1){animProg=Math.min(1,animProg+0.04);}
+    drawChart(animProg);
+    requestAnimationFrame(animate);
+  }
+
+  const chartObs = new IntersectionObserver(entries=>{
+    if(entries[0].isIntersecting && !started){started=true;animate();}
+  },{threshold:.3});
+  chartObs.observe(canvas);
+
+  canvas.addEventListener('mousemove',e=>{
+    const rect=canvas.getBoundingClientRect();
+    const mx=(e.clientX-rect.left)*(W/rect.width);
+    const my=(e.clientY-rect.top)*(H/rect.height);
+    hovStage=null;
+    xs.forEach((x,i)=>{if(Math.abs(x-mx)<18 && Math.abs(ys[i]-my)<18)hovStage=i;});
+    canvas.style.cursor=hovStage!==null?'pointer':'default';
+    if(!started){started=true;animate();}
+  });
+  canvas.addEventListener('mouseleave',()=>hovStage=null);
+
+  if(!started){started=true;animate();}
+})();
 </script>
 </body>
 </html>
